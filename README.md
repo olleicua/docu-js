@@ -9,14 +9,14 @@ docu is a library to streamline the creation and management of dynamic html docu
 ```js
 const container = new docu.Entity({
   className: 'main-content',
-	children: [
-	  new docu.Entity('p', {
-		  textContent: 'paragraph 1'
-		}),
-	  new docu.Entity('p', {
-		  textContent: 'paragraph 2',
-			style: { textDecoration: 'underline' }
-		})
+  children: [
+    new docu.Entity('p', {
+      textContent: 'paragraph 1'
+    }),
+    new docu.Entity('p', {
+      textContent: 'paragraph 2',
+      style: { textDecoration: 'underline' }
+    })
   ]
 });
 docu.append(container);
@@ -27,7 +27,7 @@ the above will add the following html to the bottom of your webpage:
 ```html
 <div class="main-content">
   <p>paragraph 1</p>
-	<p style="text-decoration: underline;">
+  <p style="text-decoration: underline;">
 </div>
 ```
 
@@ -37,7 +37,7 @@ you can later modify the properties on an entity like so:
 
 ```js
 container.update({
-	style: {
+  style: {
     background: 'green'
   }
 });
@@ -49,7 +49,7 @@ container.update({
 const clicker = new docu.Listener();
 
 docu.append(new docu.Entity('button', {
-	onClick: (event) => clicker.send(event)
+  onClick: (event) => clicker.send(event)
 }));
 
 clicker.listen((event) => {
@@ -65,22 +65,22 @@ the above will create a button that, when clicked, logs the click event to the c
 const name = new docu.State('world');
 
 const input = new docu.Entity('label', {
-	children: [
-	  'name: ',
-	  new docu.Entity('input', {
-		  value: name,
-			onKeyUp: (event) => name.send(event.target.value)
-		})
+  children: [
+    'name: ',
+    new docu.Entity('input', {
+      value: name,
+      onKeyUp: (event) => name.send(event.target.value)
+    })
   ]
 });
 docu.append(input);
 
 const content = new docu.Entity('p', {
-	children: [
-	  'hello ',
-	  new docu.Entity('span', {
-		  textContent: name
-		})
+  children: [
+    'hello ',
+    new docu.Entity('span', {
+      textContent: name
+    })
   ]
 });
 docu.append(content);

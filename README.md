@@ -1,6 +1,6 @@
 # docu
 
-docu is a library for stramline the creation and management of dynamic html documents. its goal is to provid a simple and light-weight interface to the document object model that provides event-base state management with an easy to use api that gets out of your way and stays out of your way.
+docu is a library to streamline the creation and management of dynamic html documents. its goal is to provid a simple and light-weight interface to the document object model that provides event-base state management with an easy to use api that gets out of your way and stays out of your way.
 
 ## usage examples
 

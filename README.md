@@ -1,6 +1,6 @@
 # docu
 
-docu is a library to streamline the creation and management of dynamic html documents. its goal is to provid a simple and light-weight interface to the document object model that provides event-base state management with an easy to use api that gets out of your way and stays out of your way.
+docu is a library to streamline the creation and management of dynamic html documents. its goal is to provide a simple and light-weight interface to the document object model that provides event-base state management with an easy to use api that gets out of your way and stays out of your way.
 
 ## usage examples
 
@@ -19,7 +19,7 @@ const container = new docu.Entity({
     })
   ]
 });
-docu.append(container);
+docu.append(document.body, container);
 ```
 
 the above will add the following html to the bottom of your webpage:
@@ -48,9 +48,13 @@ container.update({
 ```js
 const clicker = new docu.Listener();
 
-docu.append(new docu.Entity('button', {
-  onClick: (event) => clicker.send(event)
-}));
+docu.append(
+  document.body,
+  new docu.Entity('button', {
+	  textContent: 'click me',
+    onClick: (event) => clicker.send(event)
+  })
+);
 
 clicker.listen((event) => {
   console.log('the clicker recieved an event:', event);
@@ -68,8 +72,8 @@ const input = new docu.Entity('label', {
   children: [
     'name: ',
     new docu.Entity('input', {
-      value: name,
-      onKeyUp: (event) => name.send(event.target.value)
+      value: name.dynamicValue(),
+      onKeyUp: (event) => name.set(event.target.value)
     })
   ]
 });
@@ -79,7 +83,7 @@ const content = new docu.Entity('p', {
   children: [
     'hello ',
     new docu.Entity('span', {
-      textContent: name
+      textContent: name.dynamicValue()
     })
   ]
 });

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>docu.js demo</title>
+    <style type="text/css">
+      body {
+        background: #fcc;
+        color: #417;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="../dist/docu.min.js"></script>
+    <script>
+      // create HTML elements
+      const container = new docu.Entity({
+        className: 'main-content',
+        children: [
+          new docu.Entity('p', {
+            textContent: 'paragraph 1'
+          }),
+          new docu.Entity('p', {
+            textContent: 'paragraph 2',
+            style: { textDecoration: 'underline' }
+          })
+        ]
+      });
+      docu.append(document.body, container);
+
+      // listen to events
+      const clicker = new docu.Listener();
+
+      docu.append(
+        document.body,
+        new docu.Entity('button', {
+			    textContent: 'click me',
+          onClick: (event) => clicker.send(event)
+        })
+      );
+
+      clicker.listen((event) => {
+        console.log('the clicker recieved an event:', event);
+			});
+
+			// use dynamic state
+			const name = new docu.State('world');
+
+		  const input = new docu.Entity('label', {
+        children: [
+          'name: ',
+          new docu.Entity('input', {
+            value: name.dynamicValue(),
+            onKeyUp: (event) => name.set(event.target.value)
+          })
+        ]
+      });
+      docu.append(input);
+
+      const content = new docu.Entity('p', {
+        children: [
+          'hello ',
+          new docu.Entity('span', {
+            textContent: name.dynamicValue()
+          })
+        ]
+      });
+      docu.append(content);
+    </script>
+  </body>
+</html>

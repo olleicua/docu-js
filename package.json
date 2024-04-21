@@ -1,0 +1,30 @@
+{
+  "name": "docu",
+  "version": "1.0.0",
+  "description": "a library to streamline the creation and management of dynamic html documents",
+  "main": "src/docu.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c rollup.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olleicua/docu-js.git"
+  },
+  "author": "antha (aka olleicua)",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/olleicua/docu-js/issues"
+  },
+  "homepage": "https://github.com/olleicua/docu-js",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "rollup": "^4.16.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+		"rollup-plugin-terser": "^7.0.2"
+  }
+}

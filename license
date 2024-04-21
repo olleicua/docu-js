@@ -25,6 +25,6 @@ with the software or the use or other dealings in the software.
 
 ----
 
-files located in the vendor directory are externally
+files located in the node_modules directory are externally
 maintained libraries used by this software which have their own
 licenses; their terms may differ from the terms above.

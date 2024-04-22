@@ -1,4 +1,5 @@
-- implement library as currently documented
-- add more examples
-- build comprehensive documentation
-- write tests
+- [x] implement library as currently documented
+- [ ] add more examples
+- [ ] build comprehensive documentation
+- [ ] write tests
+- [ ] break out classes into separate files

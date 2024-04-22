@@ -51,7 +51,7 @@ const clicker = new docu.Listener();
 docu.append(
   document.body,
   new docu.Entity('button', {
-	  textContent: 'click me',
+    textContent: 'click me',
     onClick: (event) => clicker.send(event)
   })
 );
@@ -77,7 +77,7 @@ const input = new docu.Entity('label', {
     })
   ]
 });
-docu.append(input);
+docu.append(document.body, input);
 
 const content = new docu.Entity('p', {
   children: [
@@ -87,7 +87,7 @@ const content = new docu.Entity('p', {
     })
   ]
 });
-docu.append(content);
+docu.append(document.body, content);
 ```
 
 the above will generate an input and a paragraph linked by a state listener. whenever the user enters text in the input field, the paragraph's content will automatically be updated with the new value.

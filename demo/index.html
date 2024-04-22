@@ -13,7 +13,13 @@
     </style>
   </head>
   <body>
-    <script src="../dist/docu.min.js"></script>
+    <h2>example 1</h2>
+    <div class="example-1"></div>
+    <h2>example 2</h2>
+    <div class="example-2"></div>
+    <h2>example 3</h2>
+    <div class="example-3"></div>
+    <script src="../dist/docu.js"></script>
     <script>
       // create HTML elements
       const container = new docu.Entity({
@@ -28,27 +34,27 @@
           })
         ]
       });
-      docu.append(document.body, container);
+      docu.append(document.querySelector('.example-1'), container);
 
       // listen to events
       const clicker = new docu.Listener();
 
       docu.append(
-        document.body,
+        document.querySelector('.example-2'),
         new docu.Entity('button', {
-			    textContent: 'click me',
+          textContent: 'click me',
           onClick: (event) => clicker.send(event)
         })
       );
 
       clicker.listen((event) => {
         console.log('the clicker recieved an event:', event);
-			});
+      });
 
-			// use dynamic state
-			const name = new docu.State('world');
+      // use dynamic state
+      const name = new docu.State('world');
 
-		  const input = new docu.Entity('label', {
+      const input = new docu.Entity('label', {
         children: [
           'name: ',
           new docu.Entity('input', {
@@ -57,7 +63,7 @@
           })
         ]
       });
-      docu.append(input);
+      docu.append(document.querySelector('.example-3'), input);
 
       const content = new docu.Entity('p', {
         children: [
@@ -67,7 +73,7 @@
           })
         ]
       });
-      docu.append(content);
+      docu.append(document.querySelector('.example-3'), content);
     </script>
   </body>
 </html>

@@ -8,7 +8,11 @@ function addChildrenToElement($appendable, children) {
   let i, child;
   for (i = 0; i < children.length; i++) {
     child = children[i];
-    append($appendable, child);
+    if (child instanceof DynamicValue) {
+      new DynamicEntity(child).appendTo($appendable)
+    } else {
+      append($appendable, child);
+    }
   }
 }
 
@@ -18,7 +22,8 @@ function isAppendable(object) {
 
 const alwaysLowerCasePropertyNames = [
   'onclick',
-  'onkeyup'
+  'onkeyup',
+  'onchange'
 ];
 function normalizePropertyName(key) {
   if (includes(alwaysLowerCasePropertyNames, key.toLowerCase())) {
@@ -43,7 +48,7 @@ function assign(object, nestedProperties) {
     } else if (isObject(object[key])) {
       assign(object[key], value);
     } else if (value instanceof DynamicValue) {
-      object[normalizePropertyName(key)] = value.state.value;
+      object[normalizePropertyName(key)] = value.modifierFn(value.state.value);
       value.bindProperty(object, key);
     } else {
       object[normalizePropertyName(key)] = value;
@@ -74,6 +79,16 @@ class Entity {
   
   update(properties) {
     assign(this.$el, properties);
+  }
+
+  after(...args) {
+    this.$el.after(...args.map((arg) => {
+      return (arg instanceof Entity) ? arg.$el : arg;
+    }));
+  }
+
+  remove() {
+    this.$el.remove();
   }
 }
 
@@ -108,6 +123,23 @@ class State {
 
   dynamicValue(modifierFn) {
     return new DynamicValue(this, modifierFn);
+  }
+}
+
+class DynamicEntity {
+  constructor(dynamicValue) {
+    this.dynamicValue = dynamicValue;
+    this.entity = dynamicValue.modifierFn(dynamicValue.state.value);
+  }
+
+  appendTo($appendable) {
+    append($appendable, this.entity);
+    this.dynamicValue.state.listener.listen((newValue) => {
+      const newEntity = this.dynamicValue.modifierFn(newValue);
+      this.entity.after(newEntity);
+      this.entity.remove();
+      this.entity = newEntity;
+    });
   }
 }
 

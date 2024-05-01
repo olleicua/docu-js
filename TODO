@@ -1,6 +1,9 @@
 - [x] implement library as currently documented
-- [ ] add more examples
+- [x] support dynamic children
+- [ ] break out classes into separate files
+- [ ] improve examples
 - [ ] build comprehensive documentation
 - [ ] write tests
-- [ ] break out classes into separate files
 - [ ] integrate jsx
+- [ ] create a framework for custom entities (like components but less prescriptive)
+- [ ] add built in cutom entities to handle standard inputs so that users dont have to type `onChange={(e) => state.set(e.target.value)}` every time

@@ -19,6 +19,10 @@
     <div class="example-2"></div>
     <h2>example 3</h2>
     <div class="example-3"></div>
+    <h2>example 4</h2>
+    <div class="example-4"></div>
+    <h2>example 5</h2>
+    <div class="example-5"></div>
     <script src="../dist/docu.js"></script>
     <script>
       // create HTML elements
@@ -74,6 +78,72 @@
         ]
       });
       docu.append(document.querySelector('.example-3'), content);
+
+      // use dynamic state with a modifier function
+      const numberOfCats = new docu.State(0);
+
+      const input4 = new docu.Entity('label', {
+        children: [
+          'number of cats: ',
+          new docu.Entity('input', {
+            value: numberOfCats.dynamicValue(),
+            type: 'number',
+            onChange: (event) => numberOfCats.set(event.target.value)
+          })
+        ]
+      });
+      docu.append(document.querySelector('.example-4'), input4);
+
+      const content4 = new docu.Entity('p', {
+        textContent: numberOfCats.dynamicValue((n) => {
+          return '🐈'.repeat(n);
+        }),
+        style: { backgroundColor: '#417' }
+      });
+      docu.append(document.querySelector('.example-4'), content4);
+
+      // dynamic children
+      const contentOption = new docu.State('paragraph');
+
+      const select = new docu.Entity('label', {
+        children: [
+          'type of content: ',
+          new docu.Entity('select', {
+            onChange: (event) => contentOption.set(event.target.value),
+            children: [
+              new docu.Entity('option', {
+                value: 'paragraph',
+                textContent: 'Paragraph',
+                selected: contentOption.dynamicValue(v => v === 'paragraph')
+              }),
+              new docu.Entity('option', {
+                value: 'image',
+                textContent: 'Image',
+                selected: contentOption.dynamicValue(v => v === 'image')
+              })
+            ]
+          })
+        ]
+      });
+      docu.append(document.querySelector('.example-5'), select);
+
+      const content5 = new docu.Entity('p', {
+        style: {
+          border: '3px dashed #417',
+          padding: '5px'
+        },
+        children: [
+          'content:',
+          new docu.Entity('br', {}),
+          contentOption.dynamicValue((option) => {
+            return {
+              paragraph: new docu.Entity('p', { textContent: 'the cat is adorable' }),
+              image: new docu.Entity('img', { src: '139.jpg' })
+            }[option];
+          })
+        ]
+      });
+      docu.append(document.querySelector('.example-5'), content5);
     </script>
   </body>
 </html>

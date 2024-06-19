@@ -1,4 +1,4 @@
-import { keys, isObject, isPlainObject, isArrayLike, isString, includes } from 'lodash';
+import { keys, isObject, isPlainObject, isArrayLike, isString, includes, mapValues } from 'lodash';
 
 function addChildrenToElement($appendable, children) {
   if (!isArrayLike(children)) {
@@ -48,7 +48,7 @@ function assign(object, nestedProperties) {
     } else if (isObject(object[key])) {
       assign(object[key], value);
     } else if (value instanceof DynamicValue) {
-      object[normalizePropertyName(key)] = value.modifierFn(value.state.value);
+      object[normalizePropertyName(key)] = value.currentValue();
       value.bindProperty(object, key);
     } else {
       object[normalizePropertyName(key)] = value;
@@ -129,13 +129,13 @@ class State {
 class DynamicEntity {
   constructor(dynamicValue) {
     this.dynamicValue = dynamicValue;
-    this.entity = dynamicValue.modifierFn(dynamicValue.state.value);
+    this.entity = dynamicValue.currentValue();
   }
 
   appendTo($appendable) {
     append($appendable, this.entity);
     this.dynamicValue.state.listener.listen((newValue) => {
-      const newEntity = this.dynamicValue.modifierFn(newValue);
+      const newEntity = this.dynamicValue.currentValue();
       this.entity.after(newEntity);
       this.entity.remove();
       this.entity = newEntity;
@@ -145,7 +145,13 @@ class DynamicEntity {
 
 class DynamicValue {
   constructor(state, modifierFn) {
-    this.state = state;
+		if (state instanceof State) {
+			this.mode = 'singleState';
+			this.state = state;
+		} else {
+			this.mode = 'multiState';
+			this.states = state
+		}
     this.modifierFn = modifierFn || ((value) => value);
   }
 
@@ -155,11 +161,39 @@ class DynamicValue {
     });
   }
 
+	currentValue() {
+		switch (this.mode) {
+		case 'singleState':
+			return this.modifierFn(this.state.value);
+		case 'multiState':
+			return this.modifierFn(mapValues(this.states, 'value'));
+		}
+	}
+
   onChange(fn) {
-    this.state.listener.listen((newValue) => {
-      fn(this.modifierFn(newValue));
-    });
+		switch (this.mode) {
+		case 'singleState':
+			this.singleStateOnChange(fn);
+			break;
+		case 'multiState':
+			this.multiStateOnChange(fn);
+			break;
+		}
   }
+
+	singleStateOnChange(fn) {
+		this.state.listener.listen((newValue) => fn(this.currentValue()));
+	}
+
+	multiStateOnChange(fn) {
+		const stateKeys = keys(this.states);
+		let i, key, state;
+		for (i = 0; i < stateKeys.length; i++) {
+			key = stateKeys[i];
+			state = this.states[key];
+			state.listener.listen(() => fn(this.currentValue()));
+		}
+	}
 }
 
-window.docu = { Entity, append, Listener, State };
+window.docu = { Entity, append, Listener, State, DynamicValue };

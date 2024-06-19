@@ -1,7 +1,7 @@
 - [x] implement library as currently documented
 - [x] support dynamic children
 - [ ] break out classes into separate files
-- [ ] add support for dynamic values that depend on multiple states
+- [x] add support for dynamic values that depend on multiple states
 - [ ] improve examples
 - [ ] build comprehensive documentation
   - [ ] explain the concept with comparison to react

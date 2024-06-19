@@ -4,6 +4,8 @@
 - [ ] add support for dynamic values that depend on multiple states
 - [ ] improve examples
 - [ ] build comprehensive documentation
+  - [ ] explain the concept with comparison to react
+  - [ ] add comments to example code
 - [ ] write tests
 - [ ] integrate jsx
 - [ ] create a framework for custom entities (like components but less prescriptive)

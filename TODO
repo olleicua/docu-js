@@ -1,7 +1,9 @@
 - [x] implement library as currently documented
 - [x] support dynamic children
-- [ ] break out classes into separate files
+- [x] break out classes into separate files
 - [x] add support for dynamic values that depend on multiple states
+- [ ] fix circular dependencies (possibly using this technique: https://medium.com/visual-development/how-to-fix-nasty-circular-dependency-issues-once-and-for-all-in-javascript-typescript-a04c987cf0de)
+- [ ] fix the FIXME
 - [ ] improve examples
 - [ ] build comprehensive documentation
   - [ ] explain the concept with comparison to react

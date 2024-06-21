@@ -19,8 +19,7 @@
   },
   "homepage": "https://github.com/olleicua/docu-js",
   "dependencies": {
-    "lodash": "^4.17.21",
-    "rollup": "^4.16.0"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",

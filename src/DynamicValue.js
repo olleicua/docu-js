@@ -15,6 +15,7 @@ class DynamicValue {
   }
 
   bindProperty(object, key) {
+    object[normalizePropertyName(key)] = this.currentValue();
     this.onChange((newValue) => {
       object[normalizePropertyName(key)] = newValue;
     });

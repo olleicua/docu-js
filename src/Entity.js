@@ -35,7 +35,6 @@ function assign(object, nestedProperties) {
     } else if (isObject(object[key])) {
       assign(object[key], value);
     } else if (value instanceof DynamicValue) {
-      object[normalizePropertyName(key)] = value.currentValue();
       value.bindProperty(object, key);
     } else {
       object[normalizePropertyName(key)] = value;

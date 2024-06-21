@@ -1,7 +1,5 @@
 import { isString, includes } from 'lodash';
 
-import Entity from './Entity';
-
 export function isAppendable(object) {
   return typeof object.appendChild === 'function';
 }
@@ -21,9 +19,9 @@ export function normalizePropertyName(key) {
 }
 
 export function append(parent, child) {
-  const $parent = (parent instanceof Entity) ? parent.$el : parent;
+  const $parent = parent.isDocuEntity ? parent.$el : parent;
 
-  if (child instanceof Entity) {
+  if (child.isDocuEntity) {
     $parent.appendChild(child.$el);
   } else if (isString(child)) {
     $parent.appendChild(document.createTextNode(child));

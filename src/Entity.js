@@ -48,6 +48,8 @@ class Entity {
     const tagName = (typeof first === 'string') ? first : 'div';
     const properties = (typeof first === 'string') ? second : first;
 
+    this.isDocuEntity = true;
+
     this.$el = document.createElement(tagName);
     assign(this.$el, properties);
   }

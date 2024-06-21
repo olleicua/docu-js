@@ -8,8 +8,8 @@ class DynamicEntity {
 
   appendTo($appendable) {
     append($appendable, this.entity);
-		// FIXME: define a method on DynamicValue that can be used here to make this
-		//        work with multistate values
+    // FIXME: define a method on DynamicValue that can be used here to make this
+    //        work with multistate values
     this.dynamicValue.state.listener.listen((newValue) => {
       const newEntity = this.dynamicValue.currentValue();
       this.entity.after(newEntity);

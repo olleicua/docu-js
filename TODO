@@ -2,7 +2,7 @@
 - [x] support dynamic children
 - [x] break out classes into separate files
 - [x] add support for dynamic values that depend on multiple states
-- [ ] fix circular dependencies (possibly using this technique: https://medium.com/visual-development/how-to-fix-nasty-circular-dependency-issues-once-and-for-all-in-javascript-typescript-a04c987cf0de)
+- [x] fix circular dependencies
 - [ ] fix the FIXME
 - [ ] improve examples
 - [ ] build comprehensive documentation

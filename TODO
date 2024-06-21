@@ -3,7 +3,7 @@
 - [x] break out classes into separate files
 - [x] add support for dynamic values that depend on multiple states
 - [x] fix circular dependencies
-- [ ] fix the FIXME
+- [x] fix the FIXME
 - [ ] improve examples
 - [ ] build comprehensive documentation
   - [ ] explain the concept with comparison to react

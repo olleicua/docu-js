@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<link rel="icon" href="favicon.ico" />
+    <link rel="icon" href="favicon.ico" />
     <title>docu.js demo</title>
     <style type="text/css">
       body {
@@ -12,199 +12,199 @@
         color: #417;
       }
 
-			.examples > div {
-				background: #fcc;
-				margin: 1rem;
-				padding: 1rem;
-			}
+      .examples > div {
+        background: #fcc;
+        margin: 1rem;
+        padding: 1rem;
+      }
     </style>
-		<script src="../dist/docu.js"></script>
+    <script src="../dist/docu.js"></script>
   </head>
   <body>
-		<div class="examples">
-			<div class="example-1">
-				<h2>example 1</h2>
-			</div>
-			<script>
-				// create HTML elements
-				const container = new docu.Entity({
-					className: 'main-content',
-					children: [
-						new docu.Entity('p', {
-							textContent: 'paragraph 1'
-						}),
-						new docu.Entity('p', {
-							textContent: 'paragraph 2 in bold',
-							style: { fontWeight: 'bold' }
-						})
-					]
-				});
-				docu.append(document.querySelector('.example-1'), container);
-   		</script>
-			<div class="example-2">
-				<h2>example 2</h2>
-			</div>
-			<script>
-				// listen to events
-				const clicker = new docu.Listener();
+    <div class="examples">
+      <div class="example-1">
+        <h2>example 1</h2>
+      </div>
+      <script>
+        // create HTML elements
+        const container = new docu.Entity({
+          className: 'main-content',
+          children: [
+            new docu.Entity('p', {
+              textContent: 'paragraph 1'
+            }),
+            new docu.Entity('p', {
+              textContent: 'paragraph 2 in bold',
+              style: { fontWeight: 'bold' }
+            })
+          ]
+        });
+        docu.append(document.querySelector('.example-1'), container);
+      </script>
+      <div class="example-2">
+        <h2>example 2</h2>
+      </div>
+      <script>
+        // listen to events
+        const clicker = new docu.Listener();
 
-				docu.append(
-					document.querySelector('.example-2'),
-					new docu.Entity('button', {
-						textContent: 'click me',
-						onClick: (event) => clicker.send(event)
-					})
-				);
+        docu.append(
+          document.querySelector('.example-2'),
+          new docu.Entity('button', {
+            textContent: 'click me',
+            onClick: (event) => clicker.send(event)
+          })
+        );
 
-				clicker.listen((event) => {
-					console.log('the clicker recieved an event:', event);
-				});
-			</script>
-			<div class="example-3">
-				<h2>example 3</h2>
-			</div>
-			<script>
-				// use dynamic state
-				const name = new docu.State('world');
+        clicker.listen((event) => {
+          console.log('the clicker recieved an event:', event);
+        });
+      </script>
+      <div class="example-3">
+        <h2>example 3</h2>
+      </div>
+      <script>
+        // use dynamic state
+        const name = new docu.State('world');
 
-				const input = new docu.Entity('label', {
-					children: [
-						'name: ',
-						new docu.Entity('input', {
-							value: name.dynamicValue(),
-							onKeyUp: (event) => name.set(event.target.value)
-						})
-					]
-				});
-				docu.append(document.querySelector('.example-3'), input);
+        const input = new docu.Entity('label', {
+          children: [
+            'name: ',
+            new docu.Entity('input', {
+              value: name.dynamicValue(),
+              onKeyUp: (event) => name.set(event.target.value)
+            })
+          ]
+        });
+        docu.append(document.querySelector('.example-3'), input);
 
-				const content = new docu.Entity('p', {
-					children: [
-						'hello ',
-						new docu.Entity('span', {
-							textContent: name.dynamicValue()
-						})
-					]
-				});
-				docu.append(document.querySelector('.example-3'), content);
-			</script>
-			<div class="example-4">
-			  <h2>example 4</h2>
-			</div>
-			<script>
-				// use dynamic state with a modifier function
-				const numberOfCats = new docu.State(0);
+        const content = new docu.Entity('p', {
+          children: [
+            'hello ',
+            new docu.Entity('span', {
+              textContent: name.dynamicValue()
+            })
+          ]
+        });
+        docu.append(document.querySelector('.example-3'), content);
+      </script>
+      <div class="example-4">
+        <h2>example 4</h2>
+      </div>
+      <script>
+        // use dynamic state with a modifier function
+        const numberOfCats = new docu.State(0);
 
-				const input4 = new docu.Entity('label', {
-					children: [
-						'number of cats: ',
-						new docu.Entity('input', {
-							value: numberOfCats.dynamicValue(),
-							type: 'number',
-							onChange: (event) => numberOfCats.set(event.target.value)
-						})
-					]
-				});
-				docu.append(document.querySelector('.example-4'), input4);
+        const input4 = new docu.Entity('label', {
+          children: [
+            'number of cats: ',
+            new docu.Entity('input', {
+              value: numberOfCats.dynamicValue(),
+              type: 'number',
+              onChange: (event) => numberOfCats.set(event.target.value)
+            })
+          ]
+        });
+        docu.append(document.querySelector('.example-4'), input4);
 
-				const content4 = new docu.Entity('p', {
-					textContent: numberOfCats.dynamicValue((n) => {
-						return '🐈'.repeat(n);
-					}),
-					style: { backgroundColor: '#417' }
-				});
-				docu.append(document.querySelector('.example-4'), content4);
-			</script>
-			<div class="example-5">
-				<h2>example 5</h2>
-			</div>
-			<script>
-				// dynamic children
-				const contentOption = new docu.State('paragraph');
+        const content4 = new docu.Entity('p', {
+          textContent: numberOfCats.dynamicValue((n) => {
+            return '🐈'.repeat(n);
+          }),
+          style: { backgroundColor: '#417' }
+        });
+        docu.append(document.querySelector('.example-4'), content4);
+      </script>
+      <div class="example-5">
+        <h2>example 5</h2>
+      </div>
+      <script>
+        // dynamic children
+        const contentOption = new docu.State('paragraph');
 
-				const select = new docu.Entity('label', {
-					children: [
-						'type of content: ',
-						new docu.Entity('select', {
-							onChange: (event) => contentOption.set(event.target.value),
-							children: [
-								new docu.Entity('option', {
-									value: 'paragraph',
-									textContent: 'Paragraph',
-									selected: contentOption.dynamicValue(v => v === 'paragraph')
-								}),
-								new docu.Entity('option', {
-									value: 'image',
-									textContent: 'Image',
-									selected: contentOption.dynamicValue(v => v === 'image')
-								})
-							]
-						})
-					]
-				});
-				docu.append(document.querySelector('.example-5'), select);
+        const select = new docu.Entity('label', {
+          children: [
+            'type of content: ',
+            new docu.Entity('select', {
+              onChange: (event) => contentOption.set(event.target.value),
+              children: [
+                new docu.Entity('option', {
+                  value: 'paragraph',
+                  textContent: 'Paragraph',
+                  selected: contentOption.dynamicValue(v => v === 'paragraph')
+                }),
+                new docu.Entity('option', {
+                  value: 'image',
+                  textContent: 'Image',
+                  selected: contentOption.dynamicValue(v => v === 'image')
+                })
+              ]
+            })
+          ]
+        });
+        docu.append(document.querySelector('.example-5'), select);
 
-				const content5 = new docu.Entity('p', {
-					style: {
-						border: '3px dashed #417',
-						padding: '5px'
-					},
-					children: [
-						'content:',
-						new docu.Entity('br', {}),
-						contentOption.dynamicValue((option) => {
-							return {
-								paragraph: new docu.Entity('p', { textContent: 'the cat is adorable' }),
-								image: new docu.Entity('img', { src: '139.jpg' })
-							}[option];
-						})
-					]
-				});
-				docu.append(document.querySelector('.example-5'), content5);
-			</script>
-			<div class="example-6">
-				<h2>example 6</h2>
-			</div>
-			<script>
-				// dynamic value that depends on multiple states
-				const wordState = new docu.State('foo');
-				const numberOfCopiesState = new docu.State(2);
+        const content5 = new docu.Entity('p', {
+          style: {
+            border: '3px dashed #417',
+            padding: '5px'
+          },
+          children: [
+            'content:',
+            new docu.Entity('br', {}),
+            contentOption.dynamicValue((option) => {
+              return {
+                paragraph: new docu.Entity('p', { textContent: 'the cat is adorable' }),
+                image: new docu.Entity('img', { src: '139.jpg' })
+              }[option];
+            })
+          ]
+        });
+        docu.append(document.querySelector('.example-5'), content5);
+      </script>
+      <div class="example-6">
+        <h2>example 6</h2>
+      </div>
+      <script>
+        // dynamic value that depends on multiple states
+        const wordState = new docu.State('foo');
+        const numberOfCopiesState = new docu.State(2);
 
-				const wordInput = new docu.Entity('label', {
-					children: [
-						'word: ',
-						new docu.Entity('input', {
-							value: wordState.dynamicValue(),
-							type: 'text',
-							onKeyUp: (event) => wordState.set(event.target.value),
-							style: { display: 'block' }
-						})
-					]
-				});
-				docu.append(document.querySelector('.example-6'), wordInput);
+        const wordInput = new docu.Entity('label', {
+          children: [
+            'word: ',
+            new docu.Entity('input', {
+              value: wordState.dynamicValue(),
+              type: 'text',
+              onKeyUp: (event) => wordState.set(event.target.value),
+              style: { display: 'block' }
+            })
+          ]
+        });
+        docu.append(document.querySelector('.example-6'), wordInput);
 
-				const numberInput = new docu.Entity('label', {
-					children: [
-						'number of copies: ',
-						new docu.Entity('input', {
-							value: numberOfCopiesState.dynamicValue(),
-							type: 'number',
-							onChange: (event) => numberOfCopiesState.set(event.target.value),
-							style: { display: 'block' }
-						})
-					]
-				});
-				docu.append(document.querySelector('.example-6'), numberInput);
+        const numberInput = new docu.Entity('label', {
+          children: [
+            'number of copies: ',
+            new docu.Entity('input', {
+              value: numberOfCopiesState.dynamicValue(),
+              type: 'number',
+              onChange: (event) => numberOfCopiesState.set(event.target.value),
+              style: { display: 'block' }
+            })
+          ]
+        });
+        docu.append(document.querySelector('.example-6'), numberInput);
 
-				const content6 = new docu.Entity('p', {
-					textContent: new docu.DynamicValue(
-						{ word: wordState, n: numberOfCopiesState },
-						({ word, n }) => word.repeat(n)
-					)
-				});
-				docu.append(document.querySelector('.example-6'), content6);
+        const content6 = new docu.Entity('p', {
+          textContent: new docu.DynamicValue(
+            { word: wordState, n: numberOfCopiesState },
+            ({ word, n }) => word.repeat(n)
+          )
+        });
+        docu.append(document.querySelector('.example-6'), content6);
 
-			</script>
-		</div>
+      </script>
+    </div>
   </body>
 </html>

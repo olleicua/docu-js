@@ -41,7 +41,7 @@ class DynamicValue {
   }
 
   singleStateOnChange(fn) {
-    this.state.listener.listen((newValue) => fn(this.currentValue()));
+    this.state.listener.listen(() => fn(this.currentValue()));
   }
 
   multiStateOnChange(fn) {

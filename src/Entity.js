@@ -13,7 +13,7 @@ function addChildrenToElement($appendable, children) {
   for (i = 0; i < children.length; i++) {
     child = children[i];
     if (child instanceof DynamicValue) {
-      new DynamicEntity(child).appendTo($appendable)
+      new DynamicEntity(child).appendTo($appendable);
     } else {
       append($appendable, child);
     }

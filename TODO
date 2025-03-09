@@ -9,6 +9,6 @@
   - [ ] explain the concept with comparison to react
   - [ ] add comments to example code
 - [ ] write tests
-- [ ] integrate jsx
+- [x] integrate jsx
 - [ ] create a framework for custom entities (like components but less prescriptive)
 - [ ] add built in cutom entities to handle standard inputs so that users dont have to type `onChange={(e) => state.set(e.target.value)}` every time

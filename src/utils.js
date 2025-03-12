@@ -1,4 +1,4 @@
-import { isString, includes } from 'lodash';
+import { isString, isArray, includes } from 'lodash';
 
 export function isAppendable(object) {
   return typeof object.appendChild === 'function';
@@ -21,7 +21,11 @@ export function normalizePropertyName(key) {
 export function append(parent, child) {
   const $parent = parent.isDocuEntity ? parent.$el : parent;
 
-  if (child.isDocuEntity) {
+  if (isArray(child)) {
+    for (let i = 0; i <= child.length; i++) {
+      append(parent, child[i]);
+    }
+  } else if (child.isDocuEntity) {
     $parent.appendChild(child.$el);
   } else if (isString(child)) {
     $parent.appendChild(document.createTextNode(child));

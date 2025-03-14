@@ -2,6 +2,10 @@
 
 docu is a library to streamline the creation and management of dynamic html documents. its goal is to provide a simple and light-weight interface to the document object model that provides event-base state management with an easy to use api that gets out of your way and stays out of your way.
 
+## on the state of this documentation
+
+I plan to improve this documentation a bunch as the project develops. Right now its very much in proof of concept mode. Build uses rollup for the library itself and babel for compiling JSX to JS (see package.json for build commands). What follows is are some basic examples of what the library is capable of. More detailed examples are in the demo folder.
+
 ## usage examples
 
 ### generating static html:

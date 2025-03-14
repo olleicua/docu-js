@@ -6,6 +6,7 @@ docu is a library to streamline the creation and management of dynamic html docu
 
 ### generating static html:
 
+JS:
 ```js
 const container = new docu.Entity({
   className: 'main-content',
@@ -19,6 +20,17 @@ const container = new docu.Entity({
     })
   ]
 });
+docu.append(document.body, container);
+```
+
+JSX:
+```jsx
+const container = (
+  <div className="main-content">
+    <p>paragraph 1</p>
+    <p style={{ textDecoration: 'underline' }}>paragraph 2</p>
+  </div>
+);
 docu.append(document.body, container);
 ```
 
@@ -65,6 +77,7 @@ the above will create a button that, when clicked, logs the click event to the c
 
 ### event-based dynamic state management
 
+JS:
 ```js
 const name = new docu.State('world');
 
@@ -87,6 +100,30 @@ const content = new docu.Entity('p', {
     })
   ]
 });
+docu.append(document.body, content);
+```
+
+JSX:
+```js
+const name = new docu.State('world');
+
+const input = (
+  <label>
+    name:
+    <input
+      value={name.dynamicValue()}
+      onKeyUp={(event) => name.set(event.target.value)}
+    />
+  </label>
+);
+docu.append(document.body, input);
+
+const content = (
+  <p>
+    hello
+    <span>{name.dynamicValue()}</span>
+  </p>
+);
 docu.append(document.body, content);
 ```
 

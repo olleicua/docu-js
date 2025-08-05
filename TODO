@@ -5,6 +5,10 @@
 - [x] fix circular dependencies
 - [x] fix the FIXME
 - [ ] eliminate the clunky "dynamicValue" pattern
+  - one way to do this would be to allow the state object itself to be passed in and have dynamicValue be called behind the scenes however this wouldn't account for modifier functions or multistate dynamic values
+  - another strategy could be to have state objects be functions which could then take a modifier function and there may be a way to effectively build up multistate dynamic values using modifer functions that have access to other state objects via closure
+  - another option is to simply have a utility function (perhaps with a name like `dv`) that takes either a state or a object combining multiples states and an option modifier function and have that patter be used everywhere
+  - another since we will already be compiling JSX is to create a new syntax using `@` that gets compiled to one of the above options
 - [ ] improve examples
 - [ ] build comprehensive documentation
   - [ ] explain the concept with comparison to react

@@ -4,6 +4,7 @@
 - [x] add support for dynamic values that depend on multiple states
 - [x] fix circular dependencies
 - [x] fix the FIXME
+- [ ] eliminate the clunky "dynamicValue" pattern
 - [ ] improve examples
 - [ ] build comprehensive documentation
   - [ ] explain the concept with comparison to react

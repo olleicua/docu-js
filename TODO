@@ -16,4 +16,11 @@
 - [ ] write tests
 - [x] integrate jsx
 - [ ] create a framework for custom entities (like components but less prescriptive)
-- [ ] add built in cutom entities to handle standard inputs so that users dont have to type `onChange={(e) => state.set(e.target.value)}` every time
+  - a component is a function that returns an entity
+- [ ] add built in cutom entities to handle standard inputs so that users dont have to type `onChange={(e) => state.set(e.target.value)}` every time':
+  ```jsx
+  const value = new State('foo')
+  $container.append(
+    <Input type="text" state={value} />
+  );
+  ```

@@ -1,6 +1,7 @@
 import { isString } from 'lodash';
 import { append } from './utils'
 
+// TODO: consider more robust validation and/or rename this function
 function ensureEntity(value) {
   if (isString(value)) {
     return document.createTextNode(value);

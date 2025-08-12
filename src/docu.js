@@ -10,4 +10,8 @@ function jsxEntity(tag, props, ...children) {
   return new Entity(tag, props);
 }
 
-window.docu = { Entity, append, Listener, State, DynamicValue, jsxEntity };
+function dynamicValue(state, modifierFn) {
+  return new DynamicValue(state, modifierFn);
+}
+
+window.docu = { Entity, append, Listener, State, dynamicValue, jsxEntity };

@@ -19,6 +19,9 @@
       }
     </style>
     <script src="../dist/docu.js"></script>
+    <script>
+      const dv = docu.dynamicValue;
+    </script>
   </head>
   <body>
     <div class="examples">
@@ -71,7 +74,7 @@
           children: [
             'name: ',
             new docu.Entity('input', {
-              value: name.dynamicValue(),
+              value: dv(name),
               onKeyUp: (event) => name.set(event.target.value)
             })
           ]
@@ -82,7 +85,7 @@
           children: [
             'hello ',
             new docu.Entity('span', {
-              textContent: name.dynamicValue()
+              textContent: dv(name)
             })
           ]
         });
@@ -99,7 +102,7 @@
           children: [
             'number of cats: ',
             new docu.Entity('input', {
-              value: numberOfCats.dynamicValue(),
+              value: dv(numberOfCats),
               type: 'number',
               onChange: (event) => numberOfCats.set(event.target.value)
             })
@@ -108,7 +111,7 @@
         docu.append(document.querySelector('.example-4'), input4);
 
         const content4 = new docu.Entity('p', {
-          textContent: numberOfCats.dynamicValue((n) => {
+          textContent: dv(numberOfCats, (n) => {
             return '🐈'.repeat(n);
           }),
           style: { backgroundColor: '#417' }
@@ -131,12 +134,12 @@
                 new docu.Entity('option', {
                   value: 'paragraph',
                   textContent: 'Paragraph',
-                  selected: contentOption.dynamicValue(v => v === 'paragraph')
+                  selected: dv(contentOption, v => v === 'paragraph')
                 }),
                 new docu.Entity('option', {
                   value: 'image',
                   textContent: 'Image',
-                  selected: contentOption.dynamicValue(v => v === 'image')
+                  selected: dv(contentOption, v => v === 'image')
                 })
               ]
             })
@@ -152,7 +155,7 @@
           children: [
             'content:',
             new docu.Entity('br', {}),
-            contentOption.dynamicValue((option) => {
+	    dv(contentOption, (option) => {
               return {
                 paragraph: new docu.Entity('p', { textContent: 'the cat is adorable' }),
                 image: new docu.Entity('img', { src: '139.jpg' })
@@ -174,7 +177,7 @@
           children: [
             'word: ',
             new docu.Entity('input', {
-              value: wordState.dynamicValue(),
+              value: dv(wordState),
               type: 'text',
               onKeyUp: (event) => wordState.set(event.target.value),
               style: { display: 'block' }
@@ -187,7 +190,7 @@
           children: [
             'number of copies: ',
             new docu.Entity('input', {
-              value: numberOfCopiesState.dynamicValue(),
+              value: dv(numberOfCopiesState),
               type: 'number',
               onChange: (event) => numberOfCopiesState.set(event.target.value),
               style: { display: 'block' }
@@ -195,9 +198,9 @@
           ]
         });
         docu.append(document.querySelector('.example-6'), numberInput);
-
+2
         const content6 = new docu.Entity('p', {
-          textContent: new docu.DynamicValue(
+          textContent: dv(
             { word: wordState, n: numberOfCopiesState },
             ({ word, n }) => word.repeat(n)
           )

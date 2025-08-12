@@ -14,10 +14,6 @@ class State {
     this.listener.send(value);
     return value;
   }
-
-  dynamicValue(modifierFn) {
-    return new DynamicValue(this, modifierFn);
-  }
 }
 
 export default State;

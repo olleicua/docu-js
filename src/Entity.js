@@ -33,10 +33,12 @@ function assign(object, nestedProperties) {
     if (key === 'children' && isAppendable(object)) {
       addChildrenToElement(object, value);
     } else if (isObject(object[key])) {
+      // Question: should this be `isObject(value)`?
       assign(object[key], value);
     } else if (value instanceof DynamicValue) {
       value.bindProperty(object, key);
     } else {
+      // Question: should normalizePropertyName be called in more places in this function?
       object[normalizePropertyName(key)] = value;
     }
   }
@@ -65,6 +67,10 @@ class Entity {
 
   remove() {
     this.$el.remove();
+  }
+
+  appendChild(child) {
+    this.$el.appendChild(child);
   }
 }
 

@@ -10,9 +10,9 @@ I plan to improve this documentation a bunch as the project develops. Right now 
 
 Build uses rollup for the library itself and babel for compiling JSX to JS.
 
-`npm run build` compliles the library itself using rollup
-`npm run build_demo` uses babel to compile the demo from JSX to JS
-`npm run build_all` runs build and build demo
+- `npm run build` compliles the library itself using rollup
+- `npm run build_demo` uses babel to compile the demo from JSX to JS
+- `npm run build_all` runs build and build demo
 
 ## usage examples
 

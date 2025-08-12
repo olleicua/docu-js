@@ -4,9 +4,19 @@ docu is a library to streamline the creation and management of dynamic html docu
 
 ## on the state of this documentation
 
-I plan to improve this documentation a bunch as the project develops. Right now its very much in proof of concept mode. Build uses rollup for the library itself and babel for compiling JSX to JS (see package.json for build commands). What follows is are some basic examples of what the library is capable of. More detailed examples are in the demo folder.
+I plan to improve this documentation a bunch as the project develops. Right now its very much in proof of concept mode.
+
+### Build
+
+Build uses rollup for the library itself and babel for compiling JSX to JS.
+
+`npm run build` compliles the library itself using rollup
+`npm run build_demo` uses babel to compile the demo from JSX to JS
+`npm run build_all` runs build and build demo
 
 ## usage examples
+
+What follows is are some basic examples of what the library is capable of. More detailed examples are in the demo folder.
 
 ### generating static html:
 

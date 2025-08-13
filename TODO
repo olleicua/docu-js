@@ -11,6 +11,8 @@
   - another since we will already be compiling JSX is to create a new syntax using `@` that gets compiled to one of the above options
 - [ ] improve examples
   - [ ] move most of the examples to JSX
+  - [ ] restyle the demo
+  - [ ] work on presenting the idea well (text, ordering of things..)
 - [ ] streamline build process so that the package can be installed and used easily
 - [ ] build comprehensive documentation
   - [ ] explain the concept with comparison to react

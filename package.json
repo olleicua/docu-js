@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node_modules/rollup/dist/bin/rollup -c rollup.config.js",
-    "build_demo": "npx babel demo/jsx_src --out-dir demo/jsx_dist",
-    "build_all": "node_modules/rollup/dist/bin/rollup -c rollup.config.js && npx babel demo/jsx_src --out-dir demo/jsx_dist"
+    "build": "bin/build_library",
+    "build_old_demo": "bin/build_old_demo",
+    "build_all": "bin/build_library && bin/build_old_demo"
   },
   "repository": {
     "type": "git",

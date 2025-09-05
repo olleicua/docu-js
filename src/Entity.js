@@ -34,6 +34,7 @@ function assign(object, nestedProperties) {
       addChildrenToElement(object, value);
     } else if (isObject(object[key])) {
       // Question: should this be `isObject(value)`?
+      //           relatedly what if value is a dynamic value....
       assign(object[key], value);
     } else if (value instanceof DynamicValue) {
       value.bindProperty(object, key);

@@ -12,17 +12,35 @@
         color: #417;
       }
 
-      .examples > div {
+      .content {
         background: #fcc;
         margin: 1rem;
         padding: 1rem;
       }
+
+      .sidebar {
+
+      }
+
+      .sidebar-description {
+	  padding: 1rem 0;
+      }
     </style>
     <script src="../dist/docu.js"></script>
-    <script src="examples.js"></script>
+    <script src="script.js"></script>
   </head>
   <body>
-    <div class="examples">
+    <div class="sidebar">
+      <div class="sidebar-description">
+	[ docu.js ]
+      </div>
     </div>
+    <script>
+      docu.append(
+	document.querySelector('.sidebar'),
+	Demo.menu()
+      )
+    </script>
+    <div class="content"></div>
   </body>
 </html>

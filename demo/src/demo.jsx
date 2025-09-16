@@ -38,7 +38,7 @@ function MenuItem({ page }) {
 Demo.menu = () => {
   return (
     <div className="menu">
-      {	pages.map((page) => <MenuItem page={page} /> }
+      { pages.map((page) => <MenuItem page={page} />) }
     </div>
   );
 };

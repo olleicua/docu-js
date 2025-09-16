@@ -26,8 +26,8 @@ function MenuItem({
 Demo.menu = () => {
   return docu.jsxEntity("div", {
     className: "menu"
-  }, pages.map(page => MenuItem({
-    page
+  }, pages.map(page => docu.jsxEntity(MenuItem, {
+    page: page
   })));
 };
 Demo.page = () => {

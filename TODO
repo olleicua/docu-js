@@ -27,7 +27,7 @@
 - [ ] listener management add/remove (consider garbage collection some day)
 - [ ] resolve `TODO`s and `Question`s in code
 - [x] integrate jsx
-- [ ] create a framework for custom entities (like components but less prescriptive)
+- [x] create a framework for custom entities (like components but less prescriptive)
   - a component is a function that returns an entity
 - [ ] add built in cutom entities to handle standard inputs so that users dont have to type `onChange={(e) => state.set(e.target.value)}` every time':
 - [ ] Question: what would happen if a dv was stored in a variable which was then interpolated into the JSX in multiple places.. I think it would work fine with #bindProperty being called twice and thus calling listen multiple times.. I feel like it might also work ok with DynamicEntity simply making separate DynamicEntities to track separate elements.. it might just be fine.. I should test it tho

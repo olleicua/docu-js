@@ -7,6 +7,11 @@ import DynamicValue from './DynamicValue';
 function jsxEntity(tag, props, ...children) {
   props ||= {};
   props.children = children;
+
+  if (typeof tag === 'function') {
+    return tag(props);
+  }
+
   return new Entity(tag, props);
 }
 

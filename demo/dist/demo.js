@@ -1,18 +1,17 @@
 const dv = docu.dynamicValue;
 const State = docu.State;
 const Demo = {};
-
-// TODO: we will need to fetch source code from the src directory and compiled versions from the dist directory so we probably want the "file" property here to be something more generic like slug (which could be used for hashtag navigation)
 const pages = [{
   name: 'Hello World',
-  file: 'hello.jsx'
+  slug: 'hello'
 }, {
   name: "N Cats",
-  file: 'n_cats.jsx'
+  slug: 'n_cats'
 }];
-
-// TODO: use hashtags in URL for navigation
-const activePage = new State(pages[0]);
+const initialHash = location.hash.replace(/^#/, '');
+const initialPage = pages.find(p => p.slug === initialHash) || pages[0];
+const activePage = new State(initialPage);
+activePage.listener.listen(p => location.hash = p.slug);
 function MenuItem({
   page
 }) {

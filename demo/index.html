@@ -7,22 +7,56 @@
     <link rel="icon" href="favicon.ico" />
     <title>docu.js demo</title>
     <style type="text/css">
-      body {
-        background: #ccf;
-        color: #417;
+      html, body {
+	  margin: 0;
+	  padding: 0;
+	  height: 100%;
       }
 
-      .examples > div {
+      body {
+          color: #417;
+	  display: grid;
+	  grid-template-columns: 160px 1fr;
+      }
+
+      .content {
         background: #fcc;
-        margin: 1rem;
+        margin: 0;
         padding: 1rem;
+      }
+
+      .sidebar {
+        background: #d88;
+        margin: 0;
+        padding: 2rem;
+	border-right: 2px solid #417;
+      }
+
+      .sidebar-description {
+	padding: 1rem 0;
       }
     </style>
     <script src="../dist/docu.js"></script>
-    <script src="examples.js"></script>
+    <script src="dist/demo.js"></script>
   </head>
   <body>
-    <div class="examples">
+    <div class="sidebar">
+      <div class="sidebar-description">
+	[ docu.js ]
+      </div>
     </div>
+    <script>
+      docu.append(
+	document.querySelector('.sidebar'),
+	Demo.menu()
+      );
+    </script>
+    <div class="content"></div>
+    <script>
+      docu.append(
+	document.querySelector('.content'),
+	Demo.page()
+      );
+    </script>
   </body>
 </html>

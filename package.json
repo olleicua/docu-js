@@ -7,8 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "bin/build_library",
+    "build_demo": "bin/build_demo",
     "build_old_demo": "bin/build_old_demo",
-    "build_all": "bin/build_library && bin/build_old_demo"
+    "build_all": "bin/build_library && bin/build_demo && bin/build_old_demo"
   },
   "repository": {
     "type": "git",

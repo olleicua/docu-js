@@ -22,7 +22,7 @@ export function append(parent, child) {
   const $parent = parent.isDocuEntity ? parent.$el : parent;
 
   if (isArray(child)) {
-    for (let i = 0; i <= child.length; i++) {
+    for (let i = 0; i < child.length; i++) {
       append(parent, child[i]);
     }
   } else if (child.isDocuEntity) {

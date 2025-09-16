@@ -3,7 +3,7 @@ class Listener {
     this.listeners = [];
   }
 
-  // TODO: add the ability to introspect and remove listeners
+  // TODO: add the support for introspecting and removing listeners
   listen(fn) {
     this.listeners.push(fn);
   }

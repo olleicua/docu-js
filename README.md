@@ -1,3 +1,5 @@
+script tags allow you to put JavaScript in HTML. JSX allows you to put HTML in JavaScript. Both are things you might want to do in different situations and you should be able to without having to add in all the complexity that comes with React that you probably dont need most of the time. That's what docu.js is for.
+
 # docu
 
 docu is a library to streamline the creation and management of dynamic html documents. its goal is to provide a simple and light-weight interface to the document object model that provides event-base state management with an easy to use api that gets out of your way and stays out of your way.

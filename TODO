@@ -27,6 +27,21 @@
 - [ ] write tests (ideally the year suite builds everything and then does a browser simulation of the demo/docs)
 - [ ] listener management add/remove (consider garbage collection some day)
 - [ ] resolve `TODO`s and `Question`s in code
+- [ ] add support for DVs that return plain objects
+  - e.g.:
+    ```
+    <p style={
+      dv(theme, (t) => {
+        if (t === 'light') {
+	  return { backgroundColor: '#222', color: '#fff' };
+	}
+	return { backgroundColor: '#fff', color: '#333' };
+      })
+    }>lorem ipsum</p>
+    ```
+  - move `assign` out of Entity.js and into utils.js (this will mess up the dependencies so we will need to add an `isDocuDynamicValue` property to all DynamicValue objects like we did with isDocuEntity)
+  - rename it to `assignProperties`
+  - in DynamicValue.js in both the `bindProperty` and `onChange` methods check whether the value isPlainObject and call assignProperties if it is.
 - [x] integrate jsx
 - [x] create a framework for custom entities (like components but less prescriptive)
   - a component is a function that returns an entity

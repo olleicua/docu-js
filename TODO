@@ -9,6 +9,8 @@
   - another strategy could be to have state objects be functions which could then take a modifier function and there may be a way to effectively build up multistate dynamic values using modifer functions that have access to other state objects via closure
   - another option is to simply have a utility function (perhaps with a name like `dv`) that takes either a state or a object combining multiples states and an option modifier function and have that patter be used everywhere
   - another since we will already be compiling JSX is to create a new syntax using `@` that gets compiled to one of the above options
+- [ ] streamline build process so that the package can be installed and used easily
+- [ ] add built in cutom entities to handle standard inputs so that users dont have to type `onChange={(e) => state.set(e.target.value)}` every time':
 - [ ] improve examples
   - [ ] move most of the examples to JSX
   - [ ] restyle the demo (maybe rename it to be the documentation)
@@ -19,7 +21,6 @@
     - go into a bunch of examples
     
   - [ ] work on presenting the idea well (text, ordering of things..)
-- [ ] streamline build process so that the package can be installed and used easily
 - [ ] build comprehensive documentation
   - [ ] explain the concept with comparison to react
   - [ ] add comments to example code
@@ -29,7 +30,6 @@
 - [x] integrate jsx
 - [x] create a framework for custom entities (like components but less prescriptive)
   - a component is a function that returns an entity
-- [ ] add built in cutom entities to handle standard inputs so that users dont have to type `onChange={(e) => state.set(e.target.value)}` every time':
 - [ ] Question: what would happen if a dv was stored in a variable which was then interpolated into the JSX in multiple places.. I think it would work fine with #bindProperty being called twice and thus calling listen multiple times.. I feel like it might also work ok with DynamicEntity simply making separate DynamicEntities to track separate elements.. it might just be fine.. I should test it tho
 
 

@@ -1,13 +1,17 @@
 import { isString } from 'lodash';
 import { append } from './utils'
 
-// TODO: consider more robust validation and/or rename this function
 function ensureEntity(value) {
   if (isString(value)) {
     return document.createTextNode(value);
   }
 
-  return value;
+  if (value.isDocuEntity || obj instanceof Node) {
+    return value;
+  }
+
+  throw ('Dynamic value in child element context must be set to ' +
+	 'a docu Entity, a string, or a DOM Node');
 }
 
 class DynamicEntity {

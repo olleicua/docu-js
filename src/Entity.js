@@ -32,14 +32,11 @@ function assign(object, nestedProperties) {
     value = nestedProperties[key];
     if (key === 'children' && isAppendable(object)) {
       addChildrenToElement(object, value);
-    } else if (isObject(object[key])) {
-      // Question: should this be `isObject(value)`?
-      //           relatedly what if value is a dynamic value....
-      assign(object[key], value);
+    } else if (isPlainObject(value)) {
+      assign(object[normalizePropertyName(key)], value);
     } else if (value instanceof DynamicValue) {
       value.bindProperty(object, key);
     } else {
-      // Question: should normalizePropertyName be called in more places in this function?
       object[normalizePropertyName(key)] = value;
     }
   }

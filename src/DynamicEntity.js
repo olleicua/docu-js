@@ -1,4 +1,4 @@
-import { isString } from 'lodash';
+import { isString } from 'lodash-es';
 import { append } from './utils'
 
 function ensureEntity(value) {

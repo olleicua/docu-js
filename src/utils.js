@@ -1,4 +1,4 @@
-import { isString, isArray, includes } from 'lodash';
+import { isString, isArray, includes } from 'lodash-es';
 
 export function isAppendable(object) {
   return typeof object.appendChild === 'function';

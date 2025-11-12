@@ -1,4 +1,4 @@
-import { keys, isObject, isPlainObject, isArrayLike } from 'lodash';
+import { keys, isObject, isPlainObject, isArrayLike } from 'lodash-es';
 
 import { isAppendable, normalizePropertyName, append } from './utils'
 import DynamicValue from './DynamicValue';

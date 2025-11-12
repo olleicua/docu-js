@@ -1,4 +1,4 @@
-import { keys, mapValues } from 'lodash';
+import { keys, mapValues } from 'lodash-es';
 
 import { normalizePropertyName } from './utils'
 

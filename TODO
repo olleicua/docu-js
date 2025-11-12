@@ -24,10 +24,13 @@
 - [ ] build comprehensive documentation
   - [ ] explain the concept with comparison to react
   - [ ] add comments to example code
-- [ ] write tests (ideally the year suite builds everything and then does a browser simulation of the demo/docs)
+- [x] write tests (ideally the year suite builds everything and then does a browser simulation of the demo/docs)
+  - [x] basic JSDOM framework
+  - [ ] test all the corner cases we can think of (go through each file and consider coverage manually)
+  - [ ] consider browser testing
 - [ ] listener management add/remove (consider garbage collection some day)
 - [ ] resolve `TODO`s and `Question`s in code
-- [ ] add support for DVs that return plain objects
+- [ ] add support for DVs that return plain objects (Use TDD for this)
   - e.g.:
     ```
     <p style={
@@ -47,10 +50,8 @@
   - a component is a function that returns an entity
 - [ ] Question: what would happen if a dv was stored in a variable which was then interpolated into the JSX in multiple places.. I think it would work fine with #bindProperty being called twice and thus calling listen multiple times.. I feel like it might also work ok with DynamicEntity simply making separate DynamicEntities to track separate elements.. it might just be fine.. I should test it tho
 
-
-
-Goal:
-```jsx
+- [ ] create some standard entities like:
+  ```jsx
   const value = new State('foo')
   $container.append(
     <Input type="text" state={value} />

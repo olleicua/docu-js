@@ -40,4 +40,3 @@ if (typeof module !== 'undefined' && module.exports) {
 
 // ES Module export
 export { Entity, append, Listener, State, dynamicValue, jsxEntity };
-

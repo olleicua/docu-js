@@ -1,0 +1,93 @@
+import '../src/docu.js';
+
+const dv = window.docu.dynamicValue;
+
+test('n cats', () => {
+  const numberOfCats = new docu.State(0);
+  window.docu.append(
+    document.body,
+    (
+      <div>
+	<input
+	  type="number"
+	  value={dv(numberOfCats)}
+	  onChange={(event) => numberOfCats.set(event.target.value)}
+	/>
+	<p className="cats">
+	  {dv(numberOfCats, (n) => '🐈'.repeat(n))}
+	</p>
+      </div>
+    )
+  );
+
+  const input = document.querySelector('input');
+  const paragraph = document.querySelector('.cats');
+
+  expect(paragraph.textContent.match(/🐈/g)).toBe(null);
+  input.value = 5;
+  input.dispatchEvent(new Event('change', { bubbles: true }));
+  expect(paragraph.textContent.match(/🐈/g).length).toBe(5);
+});
+
+test('content swap', () => {
+  const contentOption = new docu.State('paragraph');
+
+  const dropdown = (
+    <label>
+      type of content:
+      <select onChange={(event) => contentOption.set(event.target.value)}>
+	<option
+	  value="paragraph"
+	  selected={dv(contentOption, v => v === 'paragraph')}
+	>
+          Paragraph
+	</option>
+	<option
+	  value="image"
+	  selected={dv(contentOption, v => v === 'image')}
+	>
+          Image
+	</option>
+      </select>
+    </label>
+  );
+  docu.append(document.body, dropdown);
+  const select = dropdown.$el.querySelector('select');
+
+  const content = (
+    <p
+      style={{
+        border: '3px dashed #417',
+        padding: '5px'
+      }}
+    >
+      content:
+      {
+	dv(contentOption, (option) => {
+          return {
+            paragraph: new docu.Entity('p', { textContent: 'the cat is adorable' }),
+            image: new docu.Entity('img', { src: '139.jpg' })
+          }[option];
+        })
+      }
+      <br />
+    </p>
+  );
+  docu.append(document.body, content);
+  
+  expect(content.$el.textContent).toMatch(/the cat is adorable/);
+  expect(content.$el.querySelector('img')).toBe(null);
+
+  select.value = 'image';
+  select.dispatchEvent(new Event('change', { bubbles: true }));
+
+  expect(content.$el.textContent).not.toMatch(/the cat is adorable/);
+  expect(content.$el.querySelector('img')).not.toBe(null);
+  expect(content.$el.querySelector('img').src).toMatch('139.jpg');
+
+  select.value = 'paragraph';
+  select.dispatchEvent(new Event('change', { bubbles: true }));
+
+  expect(content.$el.textContent).toMatch(/the cat is adorable/);
+  expect(content.$el.querySelector('img')).toBe(null);
+});

@@ -2,12 +2,12 @@ import { isString } from 'lodash-es';
 import { append } from './utils'
 
 function ensureEntity(value) {
-  if (isString(value)) {
-    return document.createTextNode(value);
+  if (value.isDocuEntity || value instanceof Node) {
+    return value;
   }
 
-  if (value.isDocuEntity || obj instanceof Node) {
-    return value;
+  if (isString(value)) {
+    return document.createTextNode(value);
   }
 
   throw ('Dynamic value in child element context must be set to ' +
@@ -22,11 +22,16 @@ class DynamicEntity {
 
   appendTo($appendable) {
     append($appendable, this.entity);
+    console.log({ entity: this.entity });
     this.dynamicValue.onChange((newEntity) => {
+      console.log(document.body.innerHTML);
+      console.log({ newEntity });
       const confirmedNewEntity = ensureEntity(newEntity);
+      console.log({ confirmedNewEntity });
       this.entity.after(confirmedNewEntity);
       this.entity.remove();
       this.entity = confirmedNewEntity;
+      console.log(document.body.innerHTML);
     });
   }
 }

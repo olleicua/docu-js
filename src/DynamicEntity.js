@@ -20,18 +20,18 @@ class DynamicEntity {
     this.entity = ensureEntity(dynamicValue.currentValue());
   }
 
+  replaceEntity(newEntity) {
+    const newNode = newEntity.isDocuEntity ? newEntity.$el : newEntity;
+    
+    this.entity.after(newNode);
+    this.entity.remove();
+    this.entity = newEntity
+  }
+
   appendTo($appendable) {
     append($appendable, this.entity);
-    console.log({ entity: this.entity });
     this.dynamicValue.onChange((newEntity) => {
-      console.log(document.body.innerHTML);
-      console.log({ newEntity });
-      const confirmedNewEntity = ensureEntity(newEntity);
-      console.log({ confirmedNewEntity });
-      this.entity.after(confirmedNewEntity);
-      this.entity.remove();
-      this.entity = confirmedNewEntity;
-      console.log(document.body.innerHTML);
+      this.replaceEntity(ensureEntity(newEntity));
     });
   }
 }

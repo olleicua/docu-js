@@ -22,7 +22,7 @@ class DynamicEntity {
 
   replaceEntity(newEntity) {
     const newNode = newEntity.isDocuEntity ? newEntity.$el : newEntity;
-    
+
     this.entity.after(newNode);
     this.entity.remove();
     this.entity = newEntity

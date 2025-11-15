@@ -3,16 +3,21 @@ import '../src/docu.js';
 const dv = window.docu.dynamicValue;
 
 test('child can be set to a docu entity', () => {
-  const child = new docu.State('initial');
+  const initial = document.createElement('div');
+  initial.textContent = 'initial';
+  initial.className = 'foo';
+  const child = new docu.State(initial);
 
   docu.append(document.body, <p>{dv(child)}</p>);
 
   expect(document.body.textContent).toMatch(/initial/);
+  expect(document.querySelector('.foo')).not.toBe(null);
   expect(document.querySelector('span')).toBe(null);
 
   child.set(<span>foo</span>);
 
   expect(document.body.textContent).not.toMatch(/initial/);
+  expect(document.querySelector('.foo')).toBe(null);
   expect(document.querySelector('span')).not.toBe(null);
 });
 

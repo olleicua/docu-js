@@ -1,13 +1,26 @@
-import { keys, mapValues } from 'lodash-es';
+import { keys, values, mapValues, every } from 'lodash-es';
 
+import State from './State'
 import { normalizePropertyName } from './utils'
+
+function validMultistateObject(object) {
+  return every(
+    values(object),
+    value => value instanceof State
+  );
+}
 
 class DynamicValue {
   constructor(state, modifierFn) {
-    if (state.isDocuState) {
+    if (state instanceof State) {
       this.mode = 'singleState';
       this.state = state;
     } else {
+      if (!validMultistateObject(state)) {
+	throw 'the first argument to dynamicValue must be either a State object ' +
+	  'or an object whose values are all State objects'
+      }
+
       this.mode = 'multiState';
       this.states = state
     }

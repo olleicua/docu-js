@@ -1,10 +1,7 @@
 import Listener from './Listener';
-import DynamicValue from './DynamicValue';
 
 class State {
   constructor(initialValue) {
-    this.isDocuState = true;
-
     this.value = initialValue;
     this.listener = new Listener();
   }

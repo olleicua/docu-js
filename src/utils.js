@@ -1,32 +1,74 @@
-import { isString, isArray, includes } from 'lodash-es';
+import {
+  keys,
+  isObject,
+  isPlainObject,
+  isString,
+  isArrayLike,
+  isArray,
+  toArray,
+  includes
+} from 'lodash-es';
 
-import Fragment from './Fragment';
-import DynamicValue from './DynamicValue';
-import DynamicEntity from './DynamicEntity';
+let _EntityClass = null;
+let _FragmentClass = null;
+let _DynamicValueClass = null;
+let _DynamicEntityClass = null;
+
+export function registerClasses({ Entity, Fragment, DynamicValue, DynamicEntity }) {
+  _EntityClass = Entity;
+  _FragmentClass = Fragment;
+  _DynamicValueClass = DynamicValue;
+  _DynamicEntityClass = DynamicEntity;
+}
+
+export function assign(object, nestedProperties) {
+  if (!isPlainObject(nestedProperties)) {
+    throw 'Entity can only be assigned using a plain object';
+  }
+
+  const propertyKeys = keys(nestedProperties);
+  let i, key, value;
+  for (i = 0; i < propertyKeys.length; i++) {
+    key = propertyKeys[i];
+    value = nestedProperties[key];
+    if (key === 'children' && isAppendable(object)) {
+      append(object, value);
+    } else if (isPlainObject(value)) {
+      assign(object[normalizePropertyName(key)], value);
+    } else if (value instanceof _DynamicValueClass) {
+      value.bindProperty(object, key);
+    } else {
+      object[normalizePropertyName(key)] = value;
+    }
+  }
+}
 
 export function isAppendable(object) {
   return typeof object.appendChild === 'function';
 }
 
 export function ensureValidChildObject(object) {
-  if (object.isDocuEntity || object.isDocuFragment || object instanceof Node) {
+  if (object instanceof _EntityClass ||
+      object instanceof _FragmentClass ||
+      object instanceof _DynamicValueClass ||
+      object instanceof Node) {
     return object;
-  }
-
-  if (isArray(object)) {
-    return new Fragment(object.map(ensureValidChildObject));
   }
 
   if (isString(object)) {
     return document.createTextNode(object);
   }
 
-  throw ('object in a child element context must be set to ' +
-	 'a docu Entity, a docu Fragment, a string, a DOM Node, or an Array of such objects');
+  if (isArrayLike(object)) {
+    return new _FragmentClass(toArray(object).map(ensureValidChildObject));
+  }
+
+  throw ('object in a child element context must be a docu Entity, a docu Fragment, ' +
+	 'a string, a DOM Node, or an Array of such objects');
 }
 
 export function getDOMNode(object) {
-  if (object.isDocuFragment) {
+  if (object instanceof _FragmentClass) {
     throw 'docu Fragment object has no singular DOM node';
   }
 
@@ -34,7 +76,7 @@ export function getDOMNode(object) {
     throw 'Array has no singular DOM node';
   }
 
-  if (object.isDocuEntity) {
+  if (object instanceof _EntityClass) {
     return object.$el;
   }
 
@@ -43,15 +85,13 @@ export function getDOMNode(object) {
 
 export function flatDOMNodeArray(args) {
   return args.map((object) => {
-    if (isArray(object)) {
-      return flatDOMNodeArray(object);
+    const validObject = ensureValidChildObject(object);
+
+    if (validObject instanceof _FragmentClass) {
+      return flatDOMNodeArray(validObject.children);
     }
 
-    if (object.isDocuFragment) {
-      return flatDOMNodeArray(object.children);
-    }
-
-    return getDOMNode(object)
+    return getDOMNode(validObject)
   }).flat();
 }
 
@@ -75,17 +115,15 @@ export function append(parent, child) {
     throw 'parent object cannot be appended to';
   }
 
-  if (isArray(child)) {
-    for (let i = 0; i < child.length; i++) {
-      append(parent, child[i]);
+  const childObject = ensureValidChildObject(child);
+
+  if (childObject instanceof _FragmentClass) {
+    for (let i = 0; i < childObject.children.length; i++) {
+      append(parent, childObject.children[i]);
     }
-  } else if (child.isDocuFragment) {
-    for (let i = 0; i < child.children.length; i++) {
-      append(parent, child.children[i]);
-    }
-  } else if (child instanceof DynamicValue) {
-    new DynamicEntity(child).appendTo(parent);
+  } else if (childObject instanceof _DynamicValueClass) {
+    new _DynamicEntityClass(childObject).appendTo(parent);
   } else {
-    parent.appendChild(getDOMNode(child));
+    parent.appendChild(getDOMNode(childObject));
   }
 }

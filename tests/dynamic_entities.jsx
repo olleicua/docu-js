@@ -65,8 +65,8 @@ test('child cannot be set to a value other than a String, Entity, or Node', () =
   } catch (e) {
     exceptionThrown = true;
     expect(e).toBe(
-      'object in a child element context must be set to ' +
-	'a docu Entity, a docu Fragment, a string, a DOM Node, or an Array of such objects'
+      'object in a child element context must be a docu Entity, a docu Fragment, ' +
+	'a string, a DOM Node, or an Array of such objects'
     );
   }
 

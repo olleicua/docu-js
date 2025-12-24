@@ -37,6 +37,29 @@ test('multistate function', () => {
   expect(document.body.textContent.match(/Bar/g).length).toBe(7);
 });
 
+test('multistate function with invalid state object throws error', () => {
+  let exceptionThrown = false;
+
+  const text = new docu.State('Foo');
+  const count = new docu.State(3);
+
+  try {
+    const repeatedValue = dv(
+      { t: text, c: count, xyz: { nonStateObject: true } },
+      ({ t, c }) => t.repeat(c)
+    );
+  } catch (e) {
+    exceptionThrown = true;
+    expect(e).toBe(
+      'the first argument to dynamicValue must be either a State object ' +
+	'or an object whose values are all State objects'
+    );
+  }
+
+  expect(exceptionThrown).toBe(true);
+
+});
+
 test('multistate with an array of entities', () => {
   const className = new docu.State('foo');
   const strings = new docu.State(['abc', 'def']);

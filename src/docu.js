@@ -1,9 +1,13 @@
-import { append } from './utils';
+import { append, registerClasses } from './utils';
 import Entity from './Entity';
 import Fragment from './Fragment';
 import Listener from './Listener';
 import State from './State';
 import DynamicValue from './DynamicValue';
+import DynamicEntity from './DynamicEntity';
+
+// avoid circular dependencies using lazy binding
+registerClasses({ Entity, Fragment, DynamicValue, DynamicEntity });
 
 function jsxEntity(tag, props, ...children) {
   props ||= {};

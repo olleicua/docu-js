@@ -3,7 +3,6 @@ import { ensureValidChildObject, getDOMNode } from './utils';
 
 class Fragment {
   constructor(children) {
-    this.isDocuFragment = true;
     this.children = children
   }
 
@@ -22,7 +21,6 @@ class Fragment {
   }
 
   appendChild(child) {
-    // redundant call to ensureValidChildObject required to correctly handle strings
     const childObject = ensureValidChildObject(child);
     this.last().after(getDOMNode(childObject));
     this.children.push(childObject);

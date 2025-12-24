@@ -1,36 +1,35 @@
 import '../src/docu.js';
 
-const dv = window.docu.dynamicValue;
+const { append, State, dynamicValue: dv } = window.docu;
 
 test('n cats', () => {
   const numberOfCats = new docu.State(0);
-  window.docu.append(
-    document.body,
-    (
-      <div>
-	<input
-	  type="number"
-	  value={dv(numberOfCats)}
-	  onChange={(event) => numberOfCats.set(event.target.value)}
-	/>
-	<p className="cats">
-	  {dv(numberOfCats, (n) => '🐈'.repeat(n))}
-	</p>
-      </div>
-    )
-  );
+  append(document.body, (
+    <>
+      <input
+	type="number"
+	value={dv(numberOfCats)}
+	onChange={(event) => numberOfCats.set(event.target.value)}
+      />
+      <p className="cats">
+	{dv(numberOfCats, (n) => '🐈'.repeat(n))}
+      </p>
+    </>
+  ));
 
   const input = document.querySelector('input');
   const paragraph = document.querySelector('.cats');
 
   expect(paragraph.textContent.match(/🐈/g)).toBe(null);
+
   input.value = 5;
   input.dispatchEvent(new Event('change', { bubbles: true }));
+
   expect(paragraph.textContent.match(/🐈/g).length).toBe(5);
 });
 
 test('content swap', () => {
-  const contentOption = new docu.State('paragraph');
+  const contentOption = new State('paragraph');
 
   const dropdown = (
     <label>
@@ -51,7 +50,7 @@ test('content swap', () => {
       </select>
     </label>
   );
-  docu.append(document.body, dropdown);
+  append(document.body, dropdown);
   const select = dropdown.$el.querySelector('select');
 
   const content = (
@@ -65,15 +64,15 @@ test('content swap', () => {
       {
 	dv(contentOption, (option) => {
           return {
-            paragraph: new docu.Entity('p', { textContent: 'the cat is adorable' }),
-            image: new docu.Entity('img', { src: '139.jpg' })
+            paragraph: <p>the cat is adorable</p>,
+            image: <img src="139.jpg" />
           }[option];
         })
       }
       <br />
     </p>
   );
-  docu.append(document.body, content);
+  append(document.body, content);
 
   expect(content.$el.textContent).toMatch(/the cat is adorable/);
   expect(content.$el.querySelector('img')).toBe(null);

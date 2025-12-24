@@ -1,6 +1,6 @@
 import '../src/docu.js';
 
-const dv = window.docu.dynamicValue;
+const { append, dynamicValue: dv } = window.docu;
 
 test('capitalize text', () => {
   const text = new docu.State('Alice');
@@ -9,7 +9,7 @@ test('capitalize text', () => {
     text,
     (t) => t.toUpperCase()
   );
-  docu.append(document.body, <div>HELLO {capitalizedValue}!</div>);
+  append(document.body, <div>HELLO {capitalizedValue}!</div>);
 
   expect(document.body.textContent).toMatch(/HELLO ALICE!/);
   text.set('bob');
@@ -24,24 +24,28 @@ test('multistate function', () => {
     { t: text, c: count },
     ({ t, c }) => t.repeat(c)
   );
-  docu.append(document.body, <div>{repeatedValue}</div>);
+  append(document.body, <div>{repeatedValue}</div>);
 
   expect(document.body.textContent.match(/Foo/g).length).toBe(3);
+
   text.set('Bar');
+
   expect(document.body.textContent.match(/Bar/g).length).toBe(3);
+
   count.set(7);
+
   expect(document.body.textContent.match(/Bar/g).length).toBe(7);
 });
 
-test('multistate with JSX', () => {
+test('multistate with an array of entities', () => {
   const className = new docu.State('foo');
   const strings = new docu.State(['abc', 'def']);
 
   const paragraphArray = dv(
     { c: className, s: strings },
-    ({ c, s }) => <div>{s.map(str => <p className={c}>{str}</p>)}</div>
+    ({ c, s }) => s.map(str => <p className={c}>{str}</p>)
   );
-  docu.append(document.body, <div>{paragraphArray}</div>);
+  append(document.body, paragraphArray);
 
   expect(document.querySelectorAll('.foo').length).toBe(2);
   expect(document.querySelectorAll('.bar').length).toBe(0);

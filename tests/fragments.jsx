@@ -1,7 +1,9 @@
 import '../src/docu.js';
 
+const { append } = window.docu;
+
 test('creates basic fragment with two DOM elements', () => {
-  window.docu.append(document.body, (
+  append(document.body, (
     <>
       <p>lorem</p>
       <p>ipsum</p>
@@ -16,11 +18,11 @@ test('creates basic fragment with two DOM elements', () => {
 
 test('fragments, entities, and strings can be appended to an entity', () => {
   const box = <div className="box">foo</div>;
-  window.docu.append(document.body, box);
+  append(document.body, box);
 
   expect(document.querySelector('.box').innerHTML).toBe('foo');
 
-  window.docu.append(box, (
+  append(box, (
     <>
       <p>abc</p>
       <p>def</p>
@@ -29,11 +31,11 @@ test('fragments, entities, and strings can be appended to an entity', () => {
 
   expect(document.querySelector('.box').innerHTML).toBe('foo<p>abc</p><p>def</p>');
 
-  window.docu.append(box, <p>ghi</p>);
+  append(box, <p>ghi</p>);
 
   expect(document.querySelector('.box').innerHTML).toBe('foo<p>abc</p><p>def</p><p>ghi</p>');
 
-  window.docu.append(box, 'jkl');
+  append(box, 'jkl');
 
   expect(document.querySelector('.box').innerHTML).toBe('foo<p>abc</p><p>def</p><p>ghi</p>jkl');
 });
@@ -46,7 +48,7 @@ test('fragments, entities, and strings can be appended to a fragment', () => {
       <span style={{ textDecoration: 'underline' }}>fragment</span>
     </>
   );
-  window.docu.append(document.body, <div className="box">{fragment}</div>);
+  append(document.body, <div className="box">{fragment}</div>);
 
   expect(document.querySelector('.box').innerHTML).toBe(
     '<span style=\"font-weight: bold;\">this</span>is a' +
@@ -59,7 +61,7 @@ test('fragments, entities, and strings can be appended to a fragment', () => {
       <p>def</p>
     </>
   );
-  window.docu.append(fragment, subFragment);
+  append(fragment, subFragment);
 
   expect(document.querySelector('.box').innerHTML).toBe(
     '<span style=\"font-weight: bold;\">this</span>is a' +
@@ -67,7 +69,7 @@ test('fragments, entities, and strings can be appended to a fragment', () => {
       '<p>abc</p><p>def</p>'
   );
 
-  window.docu.append(fragment, <p>ghi</p>);
+  append(fragment, <p>ghi</p>);
 
   expect(document.querySelector('.box').innerHTML).toBe(
     '<span style=\"font-weight: bold;\">this</span>is a' +
@@ -75,7 +77,7 @@ test('fragments, entities, and strings can be appended to a fragment', () => {
       '<p>abc</p><p>def</p>' +
       '<p>ghi</p>'
   );
-  window.docu.append(subFragment, 'xyzzy');
+  append(subFragment, 'xyzzy');
 
   expect(document.querySelector('.box').innerHTML).toBe(
     '<span style=\"font-weight: bold;\">this</span>is a' +

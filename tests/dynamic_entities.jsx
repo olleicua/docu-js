@@ -1,6 +1,6 @@
 import '../src/docu.js';
 
-const dv = window.docu.dynamicValue;
+const { append, dynamicValue: dv } = window.docu;
 
 test('child can be set to a docu entity', () => {
   const initial = document.createElement('div');
@@ -8,7 +8,7 @@ test('child can be set to a docu entity', () => {
   initial.className = 'foo';
   const child = new docu.State(initial);
 
-  docu.append(document.body, <p>{dv(child)}</p>);
+  append(document.body, <p>{dv(child)}</p>);
 
   expect(document.body.textContent).toMatch(/initial/);
   expect(document.querySelector('.foo')).not.toBe(null);
@@ -24,7 +24,7 @@ test('child can be set to a docu entity', () => {
 test('child can be set to a DOM Element', () => {
   const child = new docu.State('initial');
 
-  docu.append(document.body, <p>{dv(child)}</p>);
+  append(document.body, <p>{dv(child)}</p>);
 
   expect(document.body.textContent).toMatch(/initial/);
   expect(document.querySelector('br')).toBe(null);
@@ -38,7 +38,7 @@ test('child can be set to a DOM Element', () => {
 test('child can be set to a string', () => {
   const child = new docu.State(<span>initial</span>);
 
-  docu.append(document.body, <p>{dv(child)}</p>);
+  append(document.body, <p>{dv(child)}</p>);
 
   expect(document.body.textContent).toMatch(/initial/);
   expect(document.body.textContent).not.toMatch(/foobar/);
@@ -54,7 +54,7 @@ test('child can be set to a string', () => {
 test('child cannot be set to a value other than a String, Entity, or Node', () => {
   const child = new docu.State('initial');
 
-  docu.append(document.body, <p>{dv(child)}</p>);
+  append(document.body, <p>{dv(child)}</p>);
 
   expect(document.body.textContent).toMatch(/initial/);
 
@@ -66,7 +66,7 @@ test('child cannot be set to a value other than a String, Entity, or Node', () =
     exceptionThrown = true;
     expect(e).toBe(
       'object in a child element context must be set to ' +
-	'a docu Entity, a docu Fragment, a string, or a DOM Node'
+	'a docu Entity, a docu Fragment, a string, a DOM Node, or an Array of such objects'
     );
   }
 

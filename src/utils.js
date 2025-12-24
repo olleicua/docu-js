@@ -1,5 +1,9 @@
 import { isString, isArray, includes } from 'lodash-es';
 
+import Fragment from './Fragment';
+import DynamicValue from './DynamicValue';
+import DynamicEntity from './DynamicEntity';
+
 export function isAppendable(object) {
   return typeof object.appendChild === 'function';
 }
@@ -9,17 +13,25 @@ export function ensureValidChildObject(object) {
     return object;
   }
 
+  if (isArray(object)) {
+    return new Fragment(object.map(ensureValidChildObject));
+  }
+
   if (isString(object)) {
     return document.createTextNode(object);
   }
 
   throw ('object in a child element context must be set to ' +
-	 'a docu Entity, a docu Fragment, a string, or a DOM Node');
+	 'a docu Entity, a docu Fragment, a string, a DOM Node, or an Array of such objects');
 }
 
 export function getDOMNode(object) {
   if (object.isDocuFragment) {
     throw 'docu Fragment object has no singular DOM node';
+  }
+
+  if (isArray(object)) {
+    throw 'Array has no singular DOM node';
   }
 
   if (object.isDocuEntity) {
@@ -31,6 +43,10 @@ export function getDOMNode(object) {
 
 export function flatDOMNodeArray(args) {
   return args.map((object) => {
+    if (isArray(object)) {
+      return flatDOMNodeArray(object);
+    }
+
     if (object.isDocuFragment) {
       return flatDOMNodeArray(object.children);
     }
@@ -67,6 +83,8 @@ export function append(parent, child) {
     for (let i = 0; i < child.children.length; i++) {
       append(parent, child.children[i]);
     }
+  } else if (child instanceof DynamicValue) {
+    new DynamicEntity(child).appendTo(parent);
   } else {
     parent.appendChild(getDOMNode(child));
   }

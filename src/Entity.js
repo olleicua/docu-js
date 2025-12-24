@@ -1,6 +1,6 @@
 import { keys, isObject, isPlainObject, isArrayLike } from 'lodash-es';
 
-import { isAppendable, normalizePropertyName, append } from './utils'
+import { isAppendable, normalizePropertyName, append, getDOMNode, flatDOMNodeArray } from './utils';
 import DynamicValue from './DynamicValue';
 import DynamicEntity from './DynamicEntity';
 
@@ -52,15 +52,13 @@ class Entity {
     this.$el = document.createElement(tagName);
     assign(this.$el, properties);
   }
-  
+
   update(properties) {
     assign(this.$el, properties);
   }
 
   after(...args) {
-    this.$el.after(...args.map((arg) => {
-      return (arg instanceof Entity) ? arg.$el : arg;
-    }));
+    this.$el.after(...flatDOMNodeArray(args));
   }
 
   remove() {
@@ -68,7 +66,7 @@ class Entity {
   }
 
   appendChild(child) {
-    this.$el.appendChild(child);
+    this.$el.appendChild(getDOMNode(child));
   }
 }
 

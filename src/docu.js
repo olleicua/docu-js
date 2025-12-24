@@ -1,5 +1,6 @@
 import { append } from './utils';
 import Entity from './Entity';
+import Fragment from './Fragment';
 import Listener from './Listener';
 import State from './State';
 import DynamicValue from './DynamicValue';
@@ -15,11 +16,15 @@ function jsxEntity(tag, props, ...children) {
   return new Entity(tag, props);
 }
 
+function DocuFragment({ children }) {
+  return new Fragment(children);
+}
+
 function dynamicValue(state, modifierFn) {
   return new DynamicValue(state, modifierFn);
 }
 
-const docu = { Entity, append, Listener, State, dynamicValue, jsxEntity };
+const docu = { Entity, append, Listener, State, dynamicValue, jsxEntity, DocuFragment };
 
 // Browser global
 if (typeof window !== 'undefined') {
@@ -31,6 +36,7 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = docu;
 } else if (typeof exports !== 'undefined') {
   exports.jsxEntity = jsxEntity;
+  exports.DocuFragment = DocuFragment;
   exports.Entity = Entity;
   exports.append = append;
   exports.Listener = Listener;
@@ -39,4 +45,4 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 // ES Module export
-export { Entity, append, Listener, State, dynamicValue, jsxEntity };
+export { Entity, append, Listener, State, dynamicValue, jsxEntity, DocuFragment };

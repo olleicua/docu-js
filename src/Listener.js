@@ -3,7 +3,9 @@ class Listener {
     this.listeners = [];
   }
 
-  // TODO: add the support for introspecting and removing listeners
+  // TODO: add the support for introspecting and removing listeners via uniq ids
+  //       (which are automatically generated in the simplest case
+  //       or specified with this.listen({ id: 'ID_123', fn: (v) => { ... }})
   listen(fn) {
     this.listeners.push(fn);
   }

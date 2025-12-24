@@ -2,7 +2,7 @@ import '../src/docu.js';
 
 test('creates basic DOM element', () => {
   window.docu.append(document.body, <div className="test">Hello World!</div>);
-  
+
   expect(document.querySelector('.test').textContent).toBe('Hello World!');
 });
 

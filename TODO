@@ -11,6 +11,7 @@
   - another since we will already be compiling JSX is to create a new syntax using `@` that gets compiled to one of the above options
 - [x] fix support for strings within dynamic values in a child context the issue is that we are calling #after on a text node and passing it an Entity. We need to define a new #replace method on the DynamicEntity that takes a before and an after and behaves differently depending on types
 - [ ] make fragments work properly
+- [ ] consider aliasing class to className so that people can intuitively say <span class="foo"> giving a competitive advantage over React..
 - [ ] streamline build process so that the package can be installed and used easily
 - [ ] add built in cutom entities to handle standard inputs so that users dont have to type `onChange={(e) => state.set(e.target.value)}` every time':
 - [ ] improve examples
@@ -19,9 +20,9 @@
     - introduce a static jsx example first.
     - then introduce state objects
     - and then show how they integrate with interpolation using dv()
-    - listeners are a footnote 
+    - listeners are a footnote
     - go into a bunch of examples
-    
+
   - [ ] work on presenting the idea well (text, ordering of things..)
 - [ ] build comprehensive documentation
   - [ ] explain the concept with comparison to react

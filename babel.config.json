@@ -3,7 +3,7 @@
     [
       "@babel/plugin-transform-react-jsx", {
         "pragma": "docu.jsxEntity",
-        "pragmaFrag": "Fragment"
+        "pragmaFrag": "docu.DocuFragment"
       }
     ]
   ]

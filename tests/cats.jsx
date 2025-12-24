@@ -74,7 +74,7 @@ test('content swap', () => {
     </p>
   );
   docu.append(document.body, content);
-  
+
   expect(content.$el.textContent).toMatch(/the cat is adorable/);
   expect(content.$el.querySelector('img')).toBe(null);
 

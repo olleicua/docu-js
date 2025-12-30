@@ -11,7 +11,7 @@
   - another since we will already be compiling JSX is to create a new syntax using `@` that gets compiled to one of the above options
 - [x] fix support for strings within dynamic values in a child context the issue is that we are calling #after on a text node and passing it an Entity. We need to define a new #replace method on the DynamicEntity that takes a before and an after and behaves differently depending on types
 - [x] make fragments work properly
-- [ ] eliminitate the circular dependency using lazy binding and avoid isX properties
+- [x] eliminitate the circular dependency using lazy binding and avoid isX properties
 - [ ] add a push method to State that only works if the value is an array (and maybe like an update method for objects..)
 - [ ] consider aliasing class to className so that people can intuitively say <span class="foo"> giving a competitive advantage over React..
 - [ ] consider exporting dynamicValue as dv to avoid encouraging an awkward destructuring
@@ -37,6 +37,7 @@
   - [ ] consider browser testing
 - [ ] listener management add/remove (consider garbage collection some day)
 - [ ] resolve `TODO`s and `Question`s in code
+- [ ] consider bringing back the circular dependency to avoid the lazy binding pattern..
 - [ ] add support for DVs that return plain objects (Use TDD for this)
   - e.g.:
     ```

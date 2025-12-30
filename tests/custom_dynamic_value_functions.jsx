@@ -84,11 +84,20 @@ test('multistate with an array of entities', () => {
   expect(document.body.textContent).toMatch(/def/);
   expect(document.body.textContent).not.toMatch(/ghi/);
 
-  strings.set(strings.value.concat('ghi'));
+  strings.push('ghi');
 
   expect(document.querySelectorAll('.foo').length).toBe(0);
   expect(document.querySelectorAll('.bar').length).toBe(3);
   expect(document.body.textContent).toMatch(/abc/);
   expect(document.body.textContent).toMatch(/def/);
   expect(document.body.textContent).toMatch(/ghi/);
+
+  const last = strings.pop();
+  expect(last).toBe('ghi');
+
+  expect(document.querySelectorAll('.foo').length).toBe(0);
+  expect(document.querySelectorAll('.bar').length).toBe(2);
+  expect(document.body.textContent).toMatch(/abc/);
+  expect(document.body.textContent).toMatch(/def/);
+  expect(document.body.textContent).not.toMatch(/ghi/);
 });

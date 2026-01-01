@@ -1,4 +1,4 @@
-import { assign, getDOMNode, flatDOMNodeArray } from './utils';
+import { assignProperties, getDOMNode, flatDOMNodeArray } from './utils';
 
 class Entity {
   constructor(first, second) {
@@ -6,11 +6,11 @@ class Entity {
     const properties = (typeof first === 'string') ? second : first;
 
     this.$el = document.createElement(tagName);
-    assign(this.$el, properties);
+    assignProperties(this.$el, properties);
   }
 
   update(properties) {
-    assign(this.$el, properties);
+    assignProperties(this.$el, properties);
   }
 
   after(...args) {

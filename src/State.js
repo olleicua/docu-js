@@ -1,6 +1,6 @@
 import { isArray, isPlainObject } from 'lodash-es';
 
-import { assign } from './utils';
+import { assignProperties } from './utils';
 import Listener from './Listener';
 import Entity from './Entity';
 
@@ -38,14 +38,13 @@ class State {
 
   update(properties) {
     if (isPlainObject(this.value)) {
-      assign(this.value, properties);
+      assignProperties(this.value, properties);
       this.listener.send(this.value);
       return this.value;
     }
 
     if (this.value instanceof Entity) {
       this.value.update(properties);
-      this.listener.send(this.value);
       return this.value;
     }
 

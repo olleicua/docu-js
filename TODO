@@ -12,7 +12,8 @@
 - [x] fix support for strings within dynamic values in a child context the issue is that we are calling #after on a text node and passing it an Entity. We need to define a new #replace method on the DynamicEntity that takes a before and an after and behaves differently depending on types
 - [x] make fragments work properly
 - [x] eliminitate the circular dependency using lazy binding and avoid isX properties
-- [ ] add a push method to State that only works if the value is an array (and maybe like an update method for objects..)
+- [x] add a push method to State that only works if the value is an array (and maybe like an update method for objects..)
+- [ ] Add in-code documentation for all classess, methods, and utility functions
 - [ ] consider aliasing class to className so that people can intuitively say <span class="foo"> giving a competitive advantage over React..
 - [ ] consider exporting dynamicValue as dv to avoid encouraging an awkward destructuring
 - [ ] would it be more user friendly to automatically interpret state objects as single state dynamic values so that <p>{stateObject}<p> would work intuitively (more react like in syntax)? I think we keep the dynamic value function for cases where we want a function over the state but maybe we just spell it out as `dynamicValue` in our examples (and leave shortenings like dv up to developer taste)
@@ -50,13 +51,13 @@
       })
     }>lorem ipsum</p>
     ```
-  - move `assign` out of Entity.js and into utils.js (this will mess up the dependencies so we will need to add an `isDocuDynamicValue` property to all DynamicValue objects like we did with isDocuEntity)
-  - rename it to `assignProperties`
-  - in DynamicValue.js in both the `bindProperty` and `onChange` methods check whether the value isPlainObject and call assignProperties if it is.
+  - [x] move `assign` out of Entity.js and into utils.js (this will mess up the dependencies so we will need to add an `isDocuDynamicValue` property to all DynamicValue objects like we did with isDocuEntity)
+  - [x] rename it to `assignProperties`
+  - [ ] in DynamicValue.js in both the `bindProperty` and `onChange` methods check whether the value isPlainObject and call assignProperties if it is.
 - [x] integrate jsx
 - [x] create a framework for custom entities (like components but less prescriptive)
   - a component is a function that returns an entity
-- [ ] Question: what would happen if a dv was stored in a variable which was then interpolated into the JSX in multiple places.. I think it would work fine with #bindProperty being called twice and thus calling listen multiple times.. I feel like it might also work ok with DynamicEntity simply making separate DynamicEntities to track separate elements.. it might just be fine.. I should test it tho
+- [ ] Question: what would happen if a dv was stored in a variable which was then interpolated into the JSX in multiple places.. I think it would work fine with #bindProperty being called twice and thus calling listen multiple times.. I feel like it might also work ok with DynamicEntity simply making separate DynamicEntities to track separate elements.. it might just be fine.. I should test it tho.. i think this would work if the dynamic entity was the result of a dynamic value function returning an entity but if the state is an entity I think we run into trouble.. we should certainly test all cases and maybe we want to log a warning if the user tries to put a single entity in multiple places.. like "Warning: interpolating an entity directly into multiple places will result in it only appearing in the most recent one. If you want multiple copies consider wrapping the interpolation in a dynamic value call: `<div>{dynamicValue({}, () => entity)}</div>`.
 
 - [ ] create some standard entities like:
   ```jsx

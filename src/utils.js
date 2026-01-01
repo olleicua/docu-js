@@ -21,7 +21,7 @@ export function registerClasses({ Entity, Fragment, DynamicValue, DynamicEntity 
   _DynamicEntityClass = DynamicEntity;
 }
 
-export function assign(object, nestedProperties) {
+export function assignProperties(object, nestedProperties) {
   if (!isPlainObject(nestedProperties)) {
     throw 'Entity can only be assigned using a plain object';
   }
@@ -34,7 +34,7 @@ export function assign(object, nestedProperties) {
     if (key === 'children' && isAppendable(object)) {
       append(object, value);
     } else if (isPlainObject(value)) {
-      assign(object[normalizePropertyName(key)], value);
+      assignProperties(object[normalizePropertyName(key)], value);
     } else if (value instanceof _DynamicValueClass) {
       value.bindProperty(object, key);
     } else {

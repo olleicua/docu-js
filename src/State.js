@@ -1,6 +1,8 @@
-import { isArray } from 'lodash-es';
+import { isArray, isPlainObject } from 'lodash-es';
 
+import { assign } from './utils';
 import Listener from './Listener';
+import Entity from './Entity';
 
 class State {
   constructor(initialValue) {
@@ -32,6 +34,23 @@ class State {
     const last = this.value.pop();
     this.listener.send(this.value);
     return last;
+  }
+
+  update(properties) {
+    if (isPlainObject(this.value)) {
+      assign(this.value, properties);
+      this.listener.send(this.value);
+      return this.value;
+    }
+
+    if (this.value instanceof Entity) {
+      this.value.update(properties);
+      this.listener.send(this.value);
+      return this.value;
+    }
+
+    throw '`update` can only be called on a State object whose value is ' +
+      'a plain obect or docu Entity'
   }
 }
 

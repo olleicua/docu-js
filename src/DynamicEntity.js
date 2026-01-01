@@ -8,11 +8,13 @@ class DynamicEntity {
   }
 
   replaceEntity(newEntity) {
+    if (this.entity === newEntity) return;
+
     const newNodes = flatDOMNodeArray([newEntity]);
 
     this.entity.after(...newNodes);
     this.entity.remove();
-    this.entity = newEntity
+    this.entity = newEntity;
   }
 
   appendTo($appendable) {

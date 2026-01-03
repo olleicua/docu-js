@@ -50,7 +50,6 @@ export function isAppendable(object) {
 export function ensureValidChildObject(object) {
   if (object instanceof _EntityClass ||
       object instanceof _FragmentClass ||
-      object instanceof _DynamicValueClass ||
       object instanceof Node) {
     return object;
   }
@@ -110,9 +109,34 @@ export function normalizePropertyName(key) {
   return key;
 }
 
+export function isChildArray(object) {
+  if (object instanceof Node || isString(object)) {
+    return false;
+  }
+
+  return isArrayLike(object);
+}
+
+function debug(x) {
+  console.log([x, JSON.stringify(x), x && x.constructor.name, isChildArray(x), x instanceof Node])
+}
+
 export function append(parent, child) {
   if (!isAppendable(parent)) {
     throw 'parent object cannot be appended to';
+  }
+
+  if (isChildArray(child)) {
+    const childArray = toArray(child);
+    for (let i = 0; i < childArray.length; i++) {
+      append(parent, childArray[i]);
+    }
+    return;
+  }
+
+  if (child instanceof _DynamicValueClass) {
+    new _DynamicEntityClass(child).appendTo(parent);
+    return;
   }
 
   const childObject = ensureValidChildObject(child);
@@ -121,9 +145,8 @@ export function append(parent, child) {
     for (let i = 0; i < childObject.children.length; i++) {
       append(parent, childObject.children[i]);
     }
-  } else if (childObject instanceof _DynamicValueClass) {
-    new _DynamicEntityClass(childObject).appendTo(parent);
-  } else {
-    parent.appendChild(getDOMNode(childObject));
+    return;
   }
+
+  parent.appendChild(getDOMNode(childObject));
 }

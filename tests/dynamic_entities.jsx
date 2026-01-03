@@ -72,3 +72,25 @@ test('child cannot be set to a value other than a String, Entity, or Node', () =
 
   expect(exceptionThrown).toBe(true);
 });
+
+test('child cannot be set to a dynamic value object', () => {
+  const child = new docu.State('initial');
+
+  append(document.body, <p>{dv(child)}</p>);
+
+  expect(document.body.textContent).toMatch(/initial/);
+
+  let exceptionThrown = false;
+
+  try {
+    child.set(dv(new docu.State(1)));
+  } catch (e) {
+    exceptionThrown = true;
+    expect(e).toBe(
+      'object in a child element context must be a docu Entity, a docu Fragment, ' +
+	'a string, a DOM Node, or an Array of such objects'
+    );
+  }
+
+  expect(exceptionThrown).toBe(true);
+});

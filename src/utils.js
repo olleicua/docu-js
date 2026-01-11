@@ -23,22 +23,23 @@ export function registerClasses({ Entity, Fragment, DynamicValue, DynamicEntity 
 
 export function assignProperties(object, nestedProperties) {
   if (!isPlainObject(nestedProperties)) {
-    throw 'Entity can only be assigned using a plain object';
+    throw 'the second argument to assignProperties can only be assigned using a plain object';
   }
 
   const propertyKeys = keys(nestedProperties);
-  let i, key, value;
+  let i, key, normalKey, value;
   for (i = 0; i < propertyKeys.length; i++) {
     key = propertyKeys[i];
+    normalKey = normalizePropertyName(key);
     value = nestedProperties[key];
     if (key === 'children' && isAppendable(object)) {
       append(object, value);
-    } else if (isPlainObject(value)) {
-      assignProperties(object[normalizePropertyName(key)], value);
+    } else if (isPlainObject(value) && isObject(object[normalKey])) {
+      assignProperties(object[normalKey], value);
     } else if (value instanceof _DynamicValueClass) {
-      value.bindProperty(object, key);
+      value.bindProperty(object, key); // QUESTION: should this be `normalKey`?
     } else {
-      object[normalizePropertyName(key)] = value;
+      object[normalKey] = value;
     }
   }
 }

@@ -17,6 +17,22 @@ test('updating to a non-object state throws an exception', () => {
   expect(exceptionThrown).toBe(true);
 });
 
+test('updating an object state with a non-object value throws an exception', () => {
+  let exceptionThrown = false;
+  const obj = new docu.State({ a: 1, b: 2 });
+
+  try {
+    obj.update(1);
+  } catch (e) {
+    exceptionThrown = true;
+    expect(e).toBe(
+      'the second argument to assignProperties can only be assigned using a plain object'
+    );
+  }
+
+  expect(exceptionThrown).toBe(true);
+});
+
 test('updating an object state', () => {
   let listenerCalled = false;
   const obj = new docu.State({ a: 1, b: 2 });
@@ -28,7 +44,35 @@ test('updating an object state', () => {
 
   obj.update({ b: 3, c: 4 });
 
-  expect(listenerCalled).toBe(true);;
+  expect(listenerCalled).toBe(true);
+});
+
+test('updating a nested object state', () => {
+  let listenerCalled = false;
+  const obj = new docu.State({ a: 1, b: 2, q: { x: 'foo', y: 'bar' } });
+
+  obj.listener.listen((value) => {
+    listenerCalled = true;
+    expect(value).toStrictEqual({ a: 1, b: 3, c: 4, q: { x: 'foo', y: 'baz' } });
+  });
+
+  obj.update({ b: 3, c: 4, q: { y: 'baz' } });
+
+  expect(listenerCalled).toBe(true);
+});
+
+test('nested updating when the existing value doesnt have the nested state set', () => {
+  let listenerCalled = false;
+  const obj = new docu.State({ a: 1, b: 2 });
+
+  obj.listener.listen((value) => {
+    listenerCalled = true;
+    expect(value).toStrictEqual({ a: 1, b: 3, c: 4, q: { y: 'baz' } });
+  });
+
+  obj.update({ b: 3, c: 4, q: { y: 'baz' } });
+
+  expect(listenerCalled).toBe(true);
 });
 
 test('updating an Entity state', () => {
@@ -36,11 +80,27 @@ test('updating an Entity state', () => {
   const ent = new docu.State(<p>foo</p>);
   append(document.body, dynamicValue(ent));
 
-  expect(document.querySelector('p').style.color).not.toBe('red');
+  expect(document.querySelector('p').className).not.toBe('foo');
 
-  ent.update({ style: { color: 'red' } });
+  ent.update({ className: 'foo' });
+
+  expect(document.querySelector('p').className).toBe('foo');
+});
+
+test('nested update to an Entity state', () => {
+  let listenerCalled = false;
+  const ent = new docu.State(<p style={{ color: 'red', backgroundColor: 'blue' }}>foo</p>);
+  append(document.body, dynamicValue(ent));
 
   expect(document.querySelector('p').style.color).toBe('red');
+  expect(document.querySelector('p').style.backgroundColor).toBe('blue');
+  expect(document.querySelector('p').style.margin).not.toBe('10px');
+
+  ent.update({ style: { backgroundColor: 'black', margin: '10px' } });
+
+  expect(document.querySelector('p').style.color).toBe('red');
+  expect(document.querySelector('p').style.backgroundColor).toBe('black');
+  expect(document.querySelector('p').style.margin).toBe('10px');
 });
 
 test('pushing to a non-array state throws an exception', () => {

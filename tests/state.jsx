@@ -128,7 +128,7 @@ test('pushing to an array state', () => {
 
   array.push(2);
 
-  expect(listenerCalled).toBe(true);;
+  expect(listenerCalled).toBe(true);
 });
 
 test('popping from a non-array state throws an exception', () => {
@@ -157,5 +157,5 @@ test('popping from an array state', () => {
   const last = array.pop();
 
   expect(last).toBe(2);
-  expect(listenerCalled).toBe(true);;
+  expect(listenerCalled).toBe(true);
 });

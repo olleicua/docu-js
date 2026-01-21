@@ -9,16 +9,14 @@ import {
   includes
 } from 'lodash-es';
 
-let _EntityClass = null;
 let _FragmentClass = null;
 let _DynamicValueClass = null;
-let _DynamicEntityClass = null;
+let _DynamicNodeClass = null;
 
-export function registerClasses({ Entity, Fragment, DynamicValue, DynamicEntity }) {
-  _EntityClass = Entity;
+export function registerClasses({ Fragment, DynamicValue, DynamicNode }) {
   _FragmentClass = Fragment;
   _DynamicValueClass = DynamicValue;
-  _DynamicEntityClass = DynamicEntity;
+  _DynamicNodeClass = DynamicNode;
 }
 
 export function assignProperties(object, nestedProperties) {
@@ -49,8 +47,7 @@ export function isAppendable(object) {
 }
 
 export function ensureValidChildObject(object) {
-  if (object instanceof _EntityClass ||
-      object instanceof _FragmentClass ||
+  if (object instanceof _FragmentClass ||
       object instanceof Node) {
     return object;
   }
@@ -63,7 +60,7 @@ export function ensureValidChildObject(object) {
     return new _FragmentClass(toArray(object).map(ensureValidChildObject));
   }
 
-  throw ('object in a child element context must be a docu Entity, a docu Fragment, ' +
+  throw ('object in a child element context must be a docu Fragment, ' +
 	 'a string, a DOM Node, or an Array of such objects');
 }
 
@@ -74,10 +71,6 @@ export function getDOMNode(object) {
 
   if (isArray(object)) {
     throw 'Array has no singular DOM node';
-  }
-
-  if (object instanceof _EntityClass) {
-    return object.$el;
   }
 
   return ensureValidChildObject(object);
@@ -136,7 +129,7 @@ export function append(parent, child) {
   }
 
   if (child instanceof _DynamicValueClass) {
-    new _DynamicEntityClass(child).appendTo(parent);
+    new _DynamicNodeClass(child).appendTo(parent);
     return;
   }
 

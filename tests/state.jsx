@@ -11,7 +11,7 @@ test('updating to a non-object state throws an exception', () => {
   } catch (e) {
     exceptionThrown = true;
     expect(e).toBe('`update` can only be called on a State object whose value is ' +
-		   'a plain obect or docu Entity');
+		   'a plain obect or a DOM Node');
   }
 
   expect(exceptionThrown).toBe(true);
@@ -75,7 +75,7 @@ test('nested updating when the existing value doesnt have the nested state set',
   expect(listenerCalled).toBe(true);
 });
 
-test('updating an Entity state', () => {
+test('updating an DOM node state', () => {
   let listenerCalled = false;
   const ent = new docu.State(<p>foo</p>);
   append(document.body, dynamicValue(ent));
@@ -87,7 +87,7 @@ test('updating an Entity state', () => {
   expect(document.querySelector('p').className).toBe('foo');
 });
 
-test('nested update to an Entity state', () => {
+test('nested update to a DOM node state', () => {
   let listenerCalled = false;
   const ent = new docu.State(<p style={{ color: 'red', backgroundColor: 'blue' }}>foo</p>);
   append(document.body, dynamicValue(ent));

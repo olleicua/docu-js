@@ -16,7 +16,7 @@ function validMultistateObject(object) {
  * interpolated into JSX.
  * in the simplest case its constructor could take a single state and no function and the value
  * would simply be whatever the state is. This is still useful as DynamicValue contains the logic
- * to bind itself to a DOM property or a DOM Node (via a DynamicEntity).
+ * to bind itself to a DOM property or a DOM Node (via a DynamicNode).
  * for example:
  * ```
  * const className = new State('foo');

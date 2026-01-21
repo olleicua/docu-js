@@ -51,7 +51,7 @@ test('content swap', () => {
     </label>
   );
   append(document.body, dropdown);
-  const select = dropdown.$el.querySelector('select');
+  const select = dropdown.querySelector('select');
 
   const content = (
     <p
@@ -74,19 +74,19 @@ test('content swap', () => {
   );
   append(document.body, content);
 
-  expect(content.$el.textContent).toMatch(/the cat is adorable/);
-  expect(content.$el.querySelector('img')).toBe(null);
+  expect(content.textContent).toMatch(/the cat is adorable/);
+  expect(content.querySelector('img')).toBe(null);
 
   select.value = 'image';
   select.dispatchEvent(new Event('change', { bubbles: true }));
 
-  expect(content.$el.textContent).not.toMatch(/the cat is adorable/);
-  expect(content.$el.querySelector('img')).not.toBe(null);
-  expect(content.$el.querySelector('img').src).toMatch('139.jpg');
+  expect(content.textContent).not.toMatch(/the cat is adorable/);
+  expect(content.querySelector('img')).not.toBe(null);
+  expect(content.querySelector('img').src).toMatch('139.jpg');
 
   select.value = 'paragraph';
   select.dispatchEvent(new Event('change', { bubbles: true }));
 
-  expect(content.$el.textContent).toMatch(/the cat is adorable/);
-  expect(content.$el.querySelector('img')).toBe(null);
+  expect(content.textContent).toMatch(/the cat is adorable/);
+  expect(content.querySelector('img')).toBe(null);
 });

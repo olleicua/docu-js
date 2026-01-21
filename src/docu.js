@@ -1,13 +1,12 @@
-import { append, registerClasses } from './utils';
-import Entity from './Entity';
+import { assignProperties, append, registerClasses } from './utils';
 import Fragment from './Fragment';
 import Listener from './Listener';
 import State from './State';
 import DynamicValue from './DynamicValue';
-import DynamicEntity from './DynamicEntity';
+import DynamicNode from './DynamicNode';
 
 // avoid circular dependencies using lazy binding
-registerClasses({ Entity, Fragment, DynamicValue, DynamicEntity });
+registerClasses({ Fragment, DynamicValue, DynamicNode });
 
 function jsxEntity(tag, props, ...children) {
   props ||= {};
@@ -17,7 +16,9 @@ function jsxEntity(tag, props, ...children) {
     return tag(props);
   }
 
-  return new Entity(tag, props);
+  const $element = document.createElement(tag);
+  assignProperties($element, props);
+  return $element;
 }
 
 function DocuFragment({ children }) {
@@ -28,7 +29,7 @@ function dynamicValue(state, modifierFn) {
   return new DynamicValue(state, modifierFn);
 }
 
-const docu = { Entity, append, Listener, State, dynamicValue, jsxEntity, DocuFragment };
+const docu = { append, Listener, State, dynamicValue, jsxEntity, DocuFragment };
 
 // Browser global
 if (typeof window !== 'undefined') {
@@ -41,7 +42,6 @@ if (typeof module !== 'undefined' && module.exports) {
 } else if (typeof exports !== 'undefined') {
   exports.jsxEntity = jsxEntity;
   exports.DocuFragment = DocuFragment;
-  exports.Entity = Entity;
   exports.append = append;
   exports.Listener = Listener;
   exports.State = State;
@@ -49,4 +49,4 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 // ES Module export
-export { Entity, append, Listener, State, dynamicValue, jsxEntity, DocuFragment };
+export { append, Listener, State, dynamicValue, jsxEntity, DocuFragment };

@@ -2,7 +2,6 @@ import { isArray, isPlainObject } from 'lodash-es';
 
 import { assignProperties } from './utils';
 import Listener from './Listener';
-import Entity from './Entity';
 
 /* class State
  *
@@ -66,7 +65,7 @@ class State {
 
   /* State#update(properties)
    *
-   * Throws an exception unless the current value is an Entity or a plain JavaScript Object.
+   * Throws an exception unless the current value is a DOM Node or a plain JavaScript Object.
    * Throws an exception unless the properties object passed in is a plain JavaScript Object.
    * For each key/value pair in the properties object an assignment is made on the current value.
    * If a nested property is an object then assignment is recursive so:
@@ -80,19 +79,14 @@ class State {
    * Returns the updated value.
    */
   update(properties) {
-    if (isPlainObject(this.value)) {
+    if (isPlainObject(this.value) || this.value instanceof Node) {
       assignProperties(this.value, properties);
       this.listener.send(this.value);
       return this.value;
     }
 
-    if (this.value instanceof Entity) {
-      this.value.update(properties);
-      return this.value;
-    }
-
     throw '`update` can only be called on a State object whose value is ' +
-      'a plain obect or docu Entity'
+      'a plain obect or a DOM Node'
   }
 }
 

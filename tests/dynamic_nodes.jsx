@@ -2,25 +2,6 @@ import '../src/docu.js';
 
 const { append, dynamicValue: dv } = window.docu;
 
-test('child can be set to a docu entity', () => {
-  const initial = document.createElement('div');
-  initial.textContent = 'initial';
-  initial.className = 'foo';
-  const child = new docu.State(initial);
-
-  append(document.body, <p>{dv(child)}</p>);
-
-  expect(document.body.textContent).toMatch(/initial/);
-  expect(document.querySelector('.foo')).not.toBe(null);
-  expect(document.querySelector('span')).toBe(null);
-
-  child.set(<span>foo</span>);
-
-  expect(document.body.textContent).not.toMatch(/initial/);
-  expect(document.querySelector('.foo')).toBe(null);
-  expect(document.querySelector('span')).not.toBe(null);
-});
-
 test('child can be set to a DOM Element', () => {
   const child = new docu.State('initial');
 
@@ -29,7 +10,7 @@ test('child can be set to a DOM Element', () => {
   expect(document.body.textContent).toMatch(/initial/);
   expect(document.querySelector('br')).toBe(null);
 
-  child.set(document.createElement('br'));
+  child.set(<br />);
 
   expect(document.body.textContent).not.toMatch(/initial/);
   expect(document.querySelector('br')).not.toBe(null);
@@ -51,7 +32,7 @@ test('child can be set to a string', () => {
   expect(document.body.textContent).toMatch(/foobar/);
 });
 
-test('child cannot be set to a value other than a String, Entity, or Node', () => {
+test('child cannot be set to a value other than a String or Node', () => {
   const child = new docu.State('initial');
 
   append(document.body, <p>{dv(child)}</p>);
@@ -65,7 +46,7 @@ test('child cannot be set to a value other than a String, Entity, or Node', () =
   } catch (e) {
     exceptionThrown = true;
     expect(e).toBe(
-      'object in a child element context must be a docu Entity, a docu Fragment, ' +
+      'object in a child element context must be a docu Fragment, ' +
 	'a string, a DOM Node, or an Array of such objects'
     );
   }
@@ -87,7 +68,7 @@ test('child cannot be set to a dynamic value object', () => {
   } catch (e) {
     exceptionThrown = true;
     expect(e).toBe(
-      'object in a child element context must be a docu Entity, a docu Fragment, ' +
+      'object in a child element context must be a docu Fragment, ' +
 	'a string, a DOM Node, or an Array of such objects'
     );
   }

@@ -15,7 +15,7 @@
 - [x] add a push method to State that only works if the value is an array (and maybe like an update method for objects..)
 - [x] consider exporting dynamicValue as dv to avoid encouraging an awkward destructuring
 - [x] would it be more user friendly to automatically interpret state objects as single state dynamic values so that <p>{stateObject}<p> would work intuitively (more react like in syntax)? I think we keep the dynamic value function for cases where we want a function over the state but maybe we just spell it out as `dynamicValue` in our examples (and leave shortenings like dv up to developer taste)
-- [ ] bringing back the circular dependency to avoid the lazy binding pattern and suppress the warnings
+- [x] bringing back the circular dependency to avoid the lazy binding pattern and suppress the warnings
 - [ ] some day test that treeshaking works right
 - [ ] Add in-code documentation for all classess, methods, and utility functions
 - [ ] consider aliasing class to className so that people can intuitively say <span class="foo"> giving a competitive advantage over React..

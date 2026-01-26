@@ -9,17 +9,10 @@ import {
   includes
 } from 'lodash-es';
 
-let _FragmentClass = null;
-let _DynamicValueClass = null;
-let _DynamicNodeClass = null;
-let _StateClass = null;
-
-export function registerClasses({ Fragment, DynamicValue, DynamicNode, State }) {
-  _FragmentClass = Fragment;
-  _DynamicValueClass = DynamicValue;
-  _DynamicNodeClass = DynamicNode;
-  _StateClass = State;
-}
+import Fragment from './Fragment';
+import DynamicValue from './DynamicValue';
+import DynamicNode from './DynamicNode';
+import State from './State';
 
 export function assignProperties(object, nestedProperties) {
   if (!isPlainObject(nestedProperties)) {
@@ -36,10 +29,10 @@ export function assignProperties(object, nestedProperties) {
       append(object, value);
     } else if (isPlainObject(value) && isObject(object[normalKey])) {
       assignProperties(object[normalKey], value);
-    } else if (value instanceof _DynamicValueClass) {
+    } else if (value instanceof DynamicValue) {
       value.bindProperty(object, normalKey);
-    } else if (value instanceof _StateClass) {
-      new _DynamicValueClass(value).bindProperty(object, normalKey);
+    } else if (value instanceof State) {
+      new DynamicValue(value).bindProperty(object, normalKey);
     } else {
       object[normalKey] = value;
     }
@@ -51,7 +44,7 @@ export function isAppendable(object) {
 }
 
 export function ensureValidChildObject(object) {
-  if (object instanceof _FragmentClass ||
+  if (object instanceof Fragment ||
       object instanceof Node) {
     return object;
   }
@@ -61,7 +54,7 @@ export function ensureValidChildObject(object) {
   }
 
   if (isArrayLike(object)) {
-    return new _FragmentClass(toArray(object).map(ensureValidChildObject));
+    return new Fragment(toArray(object).map(ensureValidChildObject));
   }
 
   throw ('object in a child element context must be a docu Fragment, ' +
@@ -69,7 +62,7 @@ export function ensureValidChildObject(object) {
 }
 
 export function getDOMNode(object) {
-  if (object instanceof _FragmentClass) {
+  if (object instanceof Fragment) {
     throw 'docu Fragment object has no singular DOM node';
   }
 
@@ -84,7 +77,7 @@ export function flatDOMNodeArray(args) {
   return args.map((object) => {
     const validObject = ensureValidChildObject(object);
 
-    if (validObject instanceof _FragmentClass) {
+    if (validObject instanceof Fragment) {
       return flatDOMNodeArray(validObject.children);
     }
 
@@ -132,21 +125,21 @@ export function append(parent, child) {
     return;
   }
 
-  if (child instanceof _DynamicValueClass) {
-    new _DynamicNodeClass(child).appendTo(parent);
+  if (child instanceof DynamicValue) {
+    new DynamicNode(child).appendTo(parent);
     return;
   }
 
-  if (child instanceof _StateClass) {
-    new _DynamicNodeClass(
-      new _DynamicValueClass(child)
+  if (child instanceof State) {
+    new DynamicNode(
+      new DynamicValue(child)
     ).appendTo(parent);
     return;
   }
 
   const childObject = ensureValidChildObject(child);
 
-  if (childObject instanceof _FragmentClass) {
+  if (childObject instanceof Fragment) {
     for (let i = 0; i < childObject.children.length; i++) {
       append(parent, childObject.children[i]);
     }

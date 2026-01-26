@@ -6,7 +6,7 @@ import DynamicValue from './DynamicValue';
 import DynamicNode from './DynamicNode';
 
 // avoid circular dependencies using lazy binding
-registerClasses({ Fragment, DynamicValue, DynamicNode });
+registerClasses({ Fragment, DynamicValue, DynamicNode, State });
 
 function jsxEntity(tag, props, ...children) {
   props ||= {};

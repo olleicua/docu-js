@@ -12,11 +12,13 @@ import {
 let _FragmentClass = null;
 let _DynamicValueClass = null;
 let _DynamicNodeClass = null;
+let _StateClass = null;
 
-export function registerClasses({ Fragment, DynamicValue, DynamicNode }) {
+export function registerClasses({ Fragment, DynamicValue, DynamicNode, State }) {
   _FragmentClass = Fragment;
   _DynamicValueClass = DynamicValue;
   _DynamicNodeClass = DynamicNode;
+  _StateClass = State;
 }
 
 export function assignProperties(object, nestedProperties) {
@@ -35,7 +37,9 @@ export function assignProperties(object, nestedProperties) {
     } else if (isPlainObject(value) && isObject(object[normalKey])) {
       assignProperties(object[normalKey], value);
     } else if (value instanceof _DynamicValueClass) {
-      value.bindProperty(object, key); // QUESTION: should this be `normalKey`?
+      value.bindProperty(object, normalKey);
+    } else if (value instanceof _StateClass) {
+      new _DynamicValueClass(value).bindProperty(object, normalKey);
     } else {
       object[normalKey] = value;
     }
@@ -130,6 +134,13 @@ export function append(parent, child) {
 
   if (child instanceof _DynamicValueClass) {
     new _DynamicNodeClass(child).appendTo(parent);
+    return;
+  }
+
+  if (child instanceof _StateClass) {
+    new _DynamicNodeClass(
+      new _DynamicValueClass(child)
+    ).appendTo(parent);
     return;
   }
 

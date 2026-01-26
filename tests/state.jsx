@@ -159,3 +159,25 @@ test('popping from an array state', () => {
   expect(last).toBe(2);
   expect(listenerCalled).toBe(true);
 });
+
+test('interpolating a state turns it into a dynamic value', () => {
+  let paragraphClass = new docu.State('foo');
+  document.body.append(<p className={paragraphClass}>xyz</p>);
+
+  expect(document.querySelector('p').className).toBe('foo');
+
+  paragraphClass.set('bar');
+
+  expect(document.querySelector('p').className).toBe('bar');
+});
+
+test('interpolating state as a DOM node', () => {
+  let node = new docu.State('foo');
+  document.body.append(<p>{node}</p>);
+
+  expect(document.querySelector('p').innerHTML).toBe('foo');
+
+  node.set(<span>bar</span>);
+
+  expect(document.querySelector('p').innerHTML).toBe('<span>bar</span>');
+});

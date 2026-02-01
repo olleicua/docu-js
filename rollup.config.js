@@ -14,16 +14,17 @@ export default [
     plugins: [
       resolve(), // Resolves node_modules
       commonjs(), // Converts CommonJS modules to ES6
-      babel({
-	babelHelpers: 'bundled',
-	presets: [
-          ['@babel/preset-env', {
-            targets: { ie: '11' }, // Target IE 11 specifically
-            useBuiltIns: 'entry',
-            corejs: 3
-          }]
-	]
-      }),
+      // browser compatibility stuff
+      // babel({
+      // 	babelHelpers: 'bundled',
+      // 	presets: [
+      //     ['@babel/preset-env', {
+      //       targets: { ie: '11' }, // Target IE 11 specifically
+      //       useBuiltIns: 'entry',
+      //       corejs: 3
+      //     }]
+      // 	]
+      // }),
     ],
     onwarn: (warning, warn) => {
       // Suppress circular dependency warnings
@@ -43,16 +44,17 @@ export default [
     plugins: [
       resolve(), // Resolves node_modules
       commonjs(), // Converts CommonJS modules to ES6
-      babel({
-	babelHelpers: 'bundled',
-	presets: [
-          ['@babel/preset-env', {
-            targets: { ie: '11' }, // Target IE 11 specifically
-            useBuiltIns: 'entry',
-            corejs: 3
-          }]
-	]
-      }),
+      // browser compatibility stuff
+      // babel({
+      // 	babelHelpers: 'bundled',
+      // 	presets: [
+      //     ['@babel/preset-env', {
+      //       targets: { ie: '11' }, // Target IE 11 specifically
+      //       useBuiltIns: 'entry',
+      //       corejs: 3
+      //     }]
+      // 	]
+      // }),
       terser(), // Minify the output
     ],
     onwarn: (warning, warn) => {

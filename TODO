@@ -16,11 +16,16 @@
 - [x] consider exporting dynamicValue as dv to avoid encouraging an awkward destructuring
 - [x] would it be more user friendly to automatically interpret state objects as single state dynamic values so that <p>{stateObject}<p> would work intuitively (more react like in syntax)? I think we keep the dynamic value function for cases where we want a function over the state but maybe we just spell it out as `dynamicValue` in our examples (and leave shortenings like dv up to developer taste)
 - [x] bringing back the circular dependency to avoid the lazy binding pattern and suppress the warnings
-- [ ] some day test that treeshaking works right
-- [ ] Add in-code documentation for all classess, methods, and utility functions
-- [ ] consider aliasing class to className so that people can intuitively say <span class="foo"> giving a competitive advantage over React..
 - [ ] streamline build process so that the package can be installed and used easily
 - [ ] add built in cutom entities to handle standard inputs so that users dont have to type `onChange={(e) => state.set(e.target.value)}` every time':
+- [ ] create some standard entities like:
+  ```jsx
+  const value = new State('foo')
+  $container.append(
+    <Input type="text" state={value} />
+  );
+  ```
+- [ ] consider aliasing class to className so that people can intuitively say <span class="foo"> giving a competitive advantage over React..
 - [ ] improve examples
   - [ ] move most of the examples to JSX
   - [ ] restyle the demo (maybe rename it to be the documentation)
@@ -31,6 +36,9 @@
     - go into a bunch of examples
 
   - [ ] work on presenting the idea well (text, ordering of things..)
+- [ ] Add in-code documentation for all classess, methods, and utility functions
+  - [x] classes
+  - [ ] utitity functions
 - [ ] build comprehensive documentation
   - [ ] explain the concept with comparison to react
   - [ ] add comments to example code
@@ -60,10 +68,5 @@
   - a component is a function that returns an entity
 - [ ] Question: what would happen if a dv was stored in a variable which was then interpolated into the JSX in multiple places.. I think it would work fine with #bindProperty being called twice and thus calling listen multiple times.. I feel like it might also work ok with DynamicEntity simply making separate DynamicEntities to track separate elements.. it might just be fine.. I should test it tho.. i think this would work if the dynamic entity was the result of a dynamic value function returning an entity but if the state is an entity I think we run into trouble.. we should certainly test all cases and maybe we want to log a warning if the user tries to put a single entity in multiple places.. like "Warning: interpolating an entity directly into multiple places will result in it only appearing in the most recent one. If you want multiple copies consider wrapping the interpolation in a dynamic value call: `<div>{dynamicValue({}, () => entity)}</div>`.
 
-- [ ] create some standard entities like:
-  ```jsx
-  const value = new State('foo')
-  $container.append(
-    <Input type="text" state={value} />
-  );
-  ```
+
+- [ ] some day test that treeshaking works right

@@ -47,5 +47,15 @@ Demo.menu = () => {
 
 Demo.page = () => {
   // TODO: This should check to see if the page object has its "loaded" property set and if not it will need to fetch the source code from src and create script tags pointing to compiled code in dist. Also we may want multiple examples per page so thats an aspect of this to think about..
-  return 'bar';
+  const name = new State('Sam');
+  const element = (
+    <div>
+      <p style={{ color: 'purple' }}>Hello {name}</p>
+      <input onChange={(e) => name.set(e.target.value)} type="text" />
+    </div>
+  );
+
+  element.style.textDecoration = 'underline';
+
+  return element;
 }

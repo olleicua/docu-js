@@ -15,11 +15,23 @@ class Fragment {
     this.children = children
   }
 
+  /* Fragment#isEmpty()
+   *
+   * returns true if there are zero children
+   */
+  isEmpty() {
+    return this.children.length === 0;
+  }
+
   /* Fragment#last()
    *
    * returns the last child.
    */
   last() {
+    if (this.isEmpty()) {
+      return null;
+    }
+
     return this.children[this.children.length - 1];
   }
 
@@ -28,7 +40,25 @@ class Fragment {
    * adds the nodes specified in the arguments to the DOM after the last node in the fragment.
    */
   after(...args) {
-    this.last().after(...args);
+    if (!this.isEmpty()) {
+      this.last().after(...args);
+      return;
+    }
+
+    if (this.previousNode) {
+      this.previousNode.after(...args);
+      return;
+    }
+
+    if (this.parent) {
+      this.parent.append(...args);
+      return;
+    }
+
+    throw (
+      'Failed to insert dom node(s) after a fragment due to insufficient context:\n' +
+	`  dom nodes: ${args}.`
+    );
   }
 
   /* Fragment#remove()
@@ -47,7 +77,7 @@ class Fragment {
    */
   appendChild(child) {
     const childObject = ensureValidChildObject(child);
-    this.last().after(getDOMNode(childObject));
+    this.after(getDOMNode(childObject));
     this.children.push(childObject);
   }
 }

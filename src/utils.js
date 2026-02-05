@@ -112,6 +112,16 @@ function debug(x) {
   console.log([x, JSON.stringify(x), x && x.constructor.name, isChildArray(x), x instanceof Node])
 }
 
+function lastChild(parent) {
+  if (parent instanceof Node) {
+    return parent.childNodes[parent.childNodes.length - 1];
+  }
+
+  if (parent instanceof Fragment) {
+    return parent.last();
+  }
+}
+
 export function append(parent, child) {
   if (!isAppendable(parent)) {
     throw 'parent object cannot be appended to';
@@ -140,6 +150,8 @@ export function append(parent, child) {
   const childObject = ensureValidChildObject(child);
 
   if (childObject instanceof Fragment) {
+    childObject.parent = parent;
+    childObject.previousNode = lastChild(parent);
     for (let i = 0; i < childObject.children.length; i++) {
       append(parent, childObject.children[i]);
     }

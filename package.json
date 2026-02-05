@@ -4,6 +4,9 @@
   "description": "a library to streamline the creation and management of dynamic html documents",
   "main": "src/docu.js",
   "type": "module",
+  "bin": {
+    "docu": "./lib/docu.js"
+  },
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "build": "bin/build_library",
@@ -22,15 +25,19 @@
   },
   "homepage": "https://github.com/olleicua/docu-js",
   "dependencies": {
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
+    "@babel/plugin-transform-react-jsx": "^7.25.9",
+    "@babel/preset-env": "^7.29.0",
     "lodash-es": "^4.17.21",
     "rollup": "^4.46.2",
     "yarn": "^1.22.22"
   },
   "devDependencies": {
-    "@babel/cli": "^7.26.4",
-    "@babel/core": "^7.28.6",
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
     "@babel/plugin-transform-react-jsx": "^7.25.9",
-    "@babel/preset-env": "^7.28.6",
+    "@babel/preset-env": "^7.29.0",
     "@rollup/plugin-babel": "^6.1.0",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",

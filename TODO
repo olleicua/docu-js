@@ -16,7 +16,7 @@
 - [x] consider exporting dynamicValue as dv to avoid encouraging an awkward destructuring
 - [x] would it be more user friendly to automatically interpret state objects as single state dynamic values so that <p>{stateObject}<p> would work intuitively (more react like in syntax)? I think we keep the dynamic value function for cases where we want a function over the state but maybe we just spell it out as `dynamicValue` in our examples (and leave shortenings like dv up to developer taste)
 - [x] bringing back the circular dependency to avoid the lazy binding pattern and suppress the warnings
-- [ ] streamline build process so that the package can be installed and used easily
+- [x] streamline build process so that the package can be installed and used easily
 - [ ] add built in cutom entities to handle standard inputs so that users dont have to type `onChange={(e) => state.set(e.target.value)}` every time':
 - [ ] create some standard entities like:
   ```jsx

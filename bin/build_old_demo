@@ -1,1 +1,1 @@
-npx babel demo_old/jsx_src --out-dir demo_old/jsx_dist
+npx docu demo_old/jsx_src demo_old/jsx_dist

@@ -57,7 +57,7 @@ class Fragment {
 
     throw (
       'Failed to insert dom node(s) after a fragment due to insufficient context:\n' +
-	`  dom nodes: ${args}.`
+      `  dom nodes: ${args}.`
     );
   }
 

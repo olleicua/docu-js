@@ -3499,7 +3499,10 @@ var docu = (function (exports) {
         return;
       }
 
-      throw `Failed to insert dom node(s) after a fragment due to insufficient context: ${args}.`
+      throw (
+        'Failed to insert dom node(s) after a fragment due to insufficient context:\n' +
+        `  dom nodes: ${args}.`
+      );
     }
 
     /* Fragment#remove()
@@ -3518,12 +3521,7 @@ var docu = (function (exports) {
      */
     appendChild(child) {
       const childObject = ensureValidChildObject(child);
-
-      if (this.isEmpty()) {
-        this.after(child);
-      } else {
-        this.last().after(getDOMNode(childObject));
-      }
+      this.after(getDOMNode(childObject));
       this.children.push(childObject);
     }
   }

@@ -1,1 +1,1 @@
-npx babel demo/src --out-dir demo/dist
+npx docu demo/src demo/dist

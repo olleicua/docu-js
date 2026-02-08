@@ -3995,7 +3995,7 @@ var docu = (function (exports) {
     return new DynamicValue(state, modifierFn);
   }
 
-  const docu = { append, Listener, State, dynamicValue, jsxEntity, DocuFragment };
+  const docu = { append, Listener, State, dynamicValue, jsxEntity, DocuFragment, assignProperties };
 
   // Browser global
   if (typeof window !== 'undefined') {
@@ -4012,12 +4012,14 @@ var docu = (function (exports) {
     exports.Listener = Listener;
     exports.State = State;
     exports.dynamicValue = dynamicValue;
+    exports.assignProperties = assignProperties;
   }
 
   exports.DocuFragment = DocuFragment;
   exports.Listener = Listener;
   exports.State = State;
   exports.append = append;
+  exports.assignProperties = assignProperties;
   exports.dynamicValue = dynamicValue;
   exports.jsxEntity = jsxEntity;
 

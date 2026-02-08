@@ -26,7 +26,7 @@ function dynamicValue(state, modifierFn) {
   return new DynamicValue(state, modifierFn);
 }
 
-const docu = { append, Listener, State, dynamicValue, jsxEntity, DocuFragment };
+const docu = { append, Listener, State, dynamicValue, jsxEntity, DocuFragment, assignProperties };
 
 // Browser global
 if (typeof window !== 'undefined') {
@@ -43,7 +43,8 @@ if (typeof module !== 'undefined' && module.exports) {
   exports.Listener = Listener;
   exports.State = State;
   exports.dynamicValue = dynamicValue;
+  exports.assignProperties = assignProperties
 }
 
 // ES Module export
-export { append, Listener, State, dynamicValue, jsxEntity, DocuFragment };
+export { append, Listener, State, dynamicValue, jsxEntity, DocuFragment, assignProperties };

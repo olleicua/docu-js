@@ -9,7 +9,7 @@ test('multiple components can bind to the same state and all update together', (
     <>
       <h1 id="heading">{dv(username, n => `Welcome, ${n}`)}</h1>
       <p id="para">{dv(username, n => `Logged in as: ${n}`)}</p>
-      <span id="nav">{dv(username)}</span>
+      <span id="nav">{username}</span>
     </>
   ));
 
@@ -41,6 +41,7 @@ test('state change only re-renders affected parts of the DOM, not siblings', () 
   expect(document.getElementById('static').textContent).toBe('I never change');
   expect(document.getElementById('dynamic').textContent).toBe('bob');
 });
+// this test is a misleading. it does nothing to confirm whether the first li is re-rendered or not
 
 test('a list can have items added and removed dynamically', () => {
   const items = new State(['apples', 'bananas']);
@@ -61,6 +62,7 @@ test('a list can have items added and removed dynamically', () => {
   expect(document.querySelectorAll('#list li').length).toBe(2);
   expect(document.getElementById('list').textContent).not.toMatch(/cherries/);
 });
+// why not also confirm that the initial two elements are present in the DOM?
 
 test('conditional rendering shows and hides content based on state', () => {
   const loggedIn = new State(false);
@@ -83,6 +85,7 @@ test('conditional rendering shows and hides content based on state', () => {
   expect(document.getElementById('dashboard')).not.toBeNull();
   expect(document.getElementById('dashboard').textContent).toBe('Welcome back!');
 });
+// why only check the textContent for one state and not the other?
 
 test('updating a state object partially preserves untouched properties', () => {
   const user = new State({ name: 'alice', role: 'admin', score: 10 });
@@ -104,8 +107,8 @@ test('two independent states do not interfere with each other', () => {
 
   append(document.body, (
     <>
-      <p id="a">{dv(a)}</p>
-      <p id="b">{dv(b)}</p>
+      <p id="a">{a}</p>
+      <p id="b">{b}</p>
     </>
   ));
 

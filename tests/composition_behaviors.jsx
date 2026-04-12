@@ -24,6 +24,7 @@ test('function components can be composed and nested', () => {
   expect(cards[0].querySelector('.badge').textContent).toBe('admin');
   expect(cards[0].querySelector('.badge').style.color).toBe('red');
   expect(cards[1].querySelector('.badge').style.color).toBe('blue');
+  // should this also check that the names are present? why or why not?
 });
 
 test('function component receives and renders dynamic children', () => {
@@ -59,7 +60,7 @@ test('a Listener acts as a decoupled event bus between components', () => {
   });
 
   append(document.body, (
-    <button id="save" onClick={() => saveClicked.send({ item: 'doc1' })}>
+    <button id="save" onClick={() => saveClicked.send({ item: `xyz-${saveCount}` })}>
       Save
     </button>
   ));
@@ -68,10 +69,11 @@ test('a Listener acts as a decoupled event bus between components', () => {
 
   document.getElementById('save').click();
   expect(saveCount).toBe(1);
-  expect(lastPayload).toStrictEqual({ item: 'doc1' });
+  expect(lastPayload).toStrictEqual({ item: 'xyz-0' });
 
   document.getElementById('save').click();
   expect(saveCount).toBe(2);
+  expect(lastPayload).toStrictEqual({ item: 'xyz-1' });
 });
 
 // ─── Fragment behaviors ───────────────────────────────────────────────────────
@@ -92,6 +94,9 @@ test('dynamic value that returns a fragment replaces correctly', () => {
       })}
     </div>
   ));
+
+  // ids shouldnt be this generic as they are meant to be unique within a document
+  // better to use a class here
 
   expect(document.querySelectorAll('.item').length).toBe(2);
   expect(document.getElementById('empty')).toBeNull();
@@ -119,12 +124,15 @@ test('appending an invalid child type throws a clear error', () => {
   expect(() => append(document.body, 42)).toThrow();
   expect(() => append(document.body, { type: 'invalid' })).toThrow();
 });
+// I'm on the fence about whether a number should automatically be converted to a string here
+// give me some pros and cons
 
 test('State#push and pop on a non-array throw descriptive errors', () => {
   const s = new State('not an array');
   expect(() => s.push(1)).toThrow(/push.*array/i);
   expect(() => s.pop()).toThrow(/pop.*array/i);
 });
+// put the full error message here. this would pass for some very misleading messages.
 
 test('State#update on a non-object throws a descriptive error', () => {
   const s = new State([1, 2, 3]);
@@ -136,3 +144,4 @@ test('multistate dynamicValue without a function throws a descriptive error', ()
   const b = new State(2);
   expect(() => dv({ a, b })).toThrow(/function/i);
 });
+// put the full error message here. this would pass for some very misleading messages.

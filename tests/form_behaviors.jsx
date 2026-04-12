@@ -7,9 +7,9 @@ test('two inputs stay in sync when bound to the same state', () => {
 
   append(document.body, (
     <>
-      <input id="input1" value={dv(text)} onKeyUp={e => text.set(e.target.value)} />
-      <input id="input2" value={dv(text)} onKeyUp={e => text.set(e.target.value)} />
-      <p id="preview">{dv(text)}</p>
+      <input id="input1" value={text} onKeyUp={e => text.set(e.target.value)} />
+      <input id="input2" value={text} onKeyUp={e => text.set(e.target.value)} />
+      <p id="preview">{text}</p>
     </>
   ));
 
@@ -20,6 +20,7 @@ test('two inputs stay in sync when bound to the same state', () => {
   expect(document.getElementById('input2').value).toBe('hello');
   expect(document.getElementById('preview').textContent).toBe('hello');
 });
+// this should also test the behavior when input2 is modified
 
 test('a counter increments and decrements correctly', () => {
   const count = new State(0);
@@ -32,6 +33,7 @@ test('a counter increments and decrements correctly', () => {
       <button id="inc" onClick={() => count.set(count.value + 1)}>+</button>
     </>
   ));
+  // if we decide to automatically convert numbers to strings then this could be simplified to <span id="count">{n}</span>
 
   expect(document.getElementById('count').textContent).toBe('0');
 
@@ -74,6 +76,8 @@ test('a todo list can add and remove items via buttons', () => {
   expect(document.getElementById('todos').textContent).toMatch(/Walk dog/);
   expect(document.getElementById('todos').textContent).not.toMatch(/Buy milk/);
 });
+// im nervous about the variable i in the closure here.. and also indices in a changing list make the list have five elements and then remove the fourth and then make sure that behaves correctly and then remove the second and make sure that behaves correctly and then remove the third and make sure that behaves correctly. the result should be that the first and third items from the original list remain
+// also instead of finding the nth remove button, find the nth li and make sure it has the expected text in it before removing it.. this is exactly the type of complexity that leads to bugs
 
 test('a toggle button flips boolean state correctly', () => {
   const on = new State(false);

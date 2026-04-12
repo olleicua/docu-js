@@ -90,26 +90,23 @@ test('dynamic value that returns a fragment replaces correctly', () => {
             <p className="item">B</p>
           </>
         );
-        return <p id="empty">Nothing here</p>;
+        return <p className="empty">Nothing here</p>;
       })}
     </div>
   ));
 
-  // ids shouldnt be this generic as they are meant to be unique within a document
-  // better to use a class here
-
   expect(document.querySelectorAll('.item').length).toBe(2);
-  expect(document.getElementById('empty')).toBeNull();
+  expect(document.querySelector('.empty')).toBeNull();
 
   view.set('empty');
 
   expect(document.querySelectorAll('.item').length).toBe(0);
-  expect(document.getElementById('empty')).not.toBeNull();
+  expect(document.querySelector('.empty')).not.toBeNull();
 
   view.set('list');
 
   expect(document.querySelectorAll('.item').length).toBe(2);
-  expect(document.getElementById('empty')).toBeNull();
+  expect(document.querySelector('.empty')).toBeNull();
 });
 
 test('empty fragment appended to body adds no nodes', () => {
@@ -129,10 +126,9 @@ test('appending an invalid child type throws a clear error', () => {
 
 test('State#push and pop on a non-array throw descriptive errors', () => {
   const s = new State('not an array');
-  expect(() => s.push(1)).toThrow(/push.*array/i);
-  expect(() => s.pop()).toThrow(/pop.*array/i);
+  expect(() => s.push(1)).toThrow('`push` can only be called on a State object whose value is an array');
+  expect(() => s.pop()).toThrow('`pop` can only be called on a State object whose value is an array');
 });
-// put the full error message here. this would pass for some very misleading messages.
 
 test('State#update on a non-object throws a descriptive error', () => {
   const s = new State([1, 2, 3]);
@@ -142,6 +138,5 @@ test('State#update on a non-object throws a descriptive error', () => {
 test('multistate dynamicValue without a function throws a descriptive error', () => {
   const a = new State(1);
   const b = new State(2);
-  expect(() => dv({ a, b })).toThrow(/function/i);
+  expect(() => dv({ a, b })).toThrow('multistate dynamic value requires a function');
 });
-// put the full error message here. this would pass for some very misleading messages.

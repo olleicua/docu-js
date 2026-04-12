@@ -19,6 +19,13 @@ test('two inputs stay in sync when bound to the same state', () => {
 
   expect(document.getElementById('input2').value).toBe('hello');
   expect(document.getElementById('preview').textContent).toBe('hello');
+
+  const input2 = document.getElementById('input2');
+  input2.value = 'world';
+  input2.dispatchEvent(new KeyboardEvent('keyup'));
+
+  expect(document.getElementById('input1').value).toBe('world');
+  expect(document.getElementById('preview').textContent).toBe('world');
 });
 // this should also test the behavior when input2 is modified
 
@@ -47,14 +54,14 @@ test('a counter increments and decrements correctly', () => {
 });
 
 test('a todo list can add and remove items via buttons', () => {
-  const todos = new State(['Buy milk', 'Walk dog']);
+  const todos = new State(['one', 'two', 'three', 'four', 'five']);
 
   append(document.body, (
     <ul id="todos">
       {dv(todos, list =>
         list.map((item, i) => (
-          <li>
-            {item}
+          <li className="todo">
+            <span className="label">{item}</span>
             <button
               className="remove"
               onClick={() => todos.set(todos.value.filter((_, j) => j !== i))}
@@ -67,17 +74,29 @@ test('a todo list can add and remove items via buttons', () => {
     </ul>
   ));
 
-  expect(document.querySelectorAll('#todos li').length).toBe(2);
+  const getLabels = () =>
+    [...document.querySelectorAll('#todos .label')].map(el => el.textContent);
 
-  // Remove the first item
-  document.querySelectorAll('.remove')[0].click();
+  expect(getLabels()).toStrictEqual(['one', 'two', 'three', 'four', 'five']);
 
-  expect(document.querySelectorAll('#todos li').length).toBe(1);
-  expect(document.getElementById('todos').textContent).toMatch(/Walk dog/);
-  expect(document.getElementById('todos').textContent).not.toMatch(/Buy milk/);
+  // remove the fourth item ('four')
+  const lisBefore = document.querySelectorAll('#todos .todo');
+  expect(lisBefore[3].querySelector('.label').textContent).toBe('four');
+  lisBefore[3].querySelector('.remove').click();
+  expect(getLabels()).toStrictEqual(['one', 'two', 'three', 'five']);
+
+  // remove the second item ('two')
+  const lisAfterFirst = document.querySelectorAll('#todos .todo');
+  expect(lisAfterFirst[1].querySelector('.label').textContent).toBe('two');
+  lisAfterFirst[1].querySelector('.remove').click();
+  expect(getLabels()).toStrictEqual(['one', 'three', 'five']);
+
+  // remove the third item in the current list ('five')
+  const lisAfterSecond = document.querySelectorAll('#todos .todo');
+  expect(lisAfterSecond[2].querySelector('.label').textContent).toBe('five');
+  lisAfterSecond[2].querySelector('.remove').click();
+  expect(getLabels()).toStrictEqual(['one', 'three']);
 });
-// im nervous about the variable i in the closure here.. and also indices in a changing list make the list have five elements and then remove the fourth and then make sure that behaves correctly and then remove the second and make sure that behaves correctly and then remove the third and make sure that behaves correctly. the result should be that the first and third items from the original list remain
-// also instead of finding the nth remove button, find the nth li and make sure it has the expected text in it before removing it.. this is exactly the type of complexity that leads to bugs
 
 test('a toggle button flips boolean state correctly', () => {
   const on = new State(false);

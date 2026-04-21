@@ -75,3 +75,21 @@ test('child cannot be set to a dynamic value object', () => {
 
   expect(exceptionThrown).toBe(true);
 });
+
+test('a dynamic node can be set to a fragment containing a dynamic node', () => {
+  const node = new docu.State(<>foo</>)
+  append(document.body, node);
+
+  expect(document.body.textContent).toMatch(/foo/);
+
+  const showDetails = new docu.State(false);
+
+  node.set(<>foo{dv(showDetails, d => d ? ' details' : '')}</>);
+
+  expect(document.body.textContent).toMatch(/foo/);
+  expect(document.body.textContent).not.toMatch(/details/);
+
+  showDetails.set(true);
+
+  expect(document.body.textContent).not.toMatch(/foo details/);
+});

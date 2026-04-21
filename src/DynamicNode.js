@@ -26,6 +26,10 @@ class DynamicNode {
   constructor(dynamicValue) {
     this.dynamicValue = dynamicValue;
     this.node = ensureValidChildObject(dynamicValue.currentValue());
+
+    this.dynamicValue.onChange((newNode) => {
+      this.replaceNode(ensureValidChildObject(newNode));
+    });
   }
 
   /* DynamicNode#appendTo(parent)
@@ -37,9 +41,6 @@ class DynamicNode {
    */
   appendTo($appendable) {
     append($appendable, this.node);
-    this.dynamicValue.onChange((newNode) => {
-      this.replaceNode(ensureValidChildObject(newNode));
-    });
   }
 
   /* DynamicNode#replaceNode(newValue)
@@ -50,6 +51,11 @@ class DynamicNode {
    * this.node to the new node.
    */
   replaceNode(newNode) {
+    if (!this.node.parentNode) {
+      this.node = newNode;
+      return;
+    }
+
     if (this.node === newNode) return;
 
     const newNodes = flatDOMNodeArray([newNode]);

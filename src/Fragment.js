@@ -1,4 +1,6 @@
 import { isString } from 'lodash-es';
+import DynamicValue from './DynamicValue';
+import DynamicNode from './DynamicNode';
 import { ensureValidChildObject, getDOMNode } from './utils';
 
 /* class Fragment
@@ -12,7 +14,13 @@ import { ensureValidChildObject, getDOMNode } from './utils';
  */
 class Fragment {
   constructor(children) {
-    this.children = children
+    this.children = children.map((child) => {
+      if (child instanceof DynamicValue) {
+        return new DynamicNode(child).node;
+      }
+
+      return ensureValidChildObject(child);
+    });
   }
 
   /* Fragment#isEmpty()

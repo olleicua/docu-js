@@ -1,4 +1,6 @@
 import { isString } from 'lodash-es';
+
+import Fragment from './Fragment';
 import { append, ensureValidChildObject, flatDOMNodeArray } from './utils'
 
 /* class DynamicNode
@@ -61,6 +63,11 @@ class DynamicNode {
     const newNodes = flatDOMNodeArray([newNode]);
 
     this.node.after(...newNodes);
+
+    if (newNode instanceof Fragment) {
+      newNode.parentNode = this.node.parentNode;
+    }
+
     this.node.remove();
     this.node = newNode;
   }

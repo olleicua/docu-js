@@ -91,5 +91,5 @@ test('a dynamic node can be set to a fragment containing a dynamic node', () => 
 
   showDetails.set(true);
 
-  expect(document.body.textContent).not.toMatch(/foo details/);
+  expect(document.body.textContent).toMatch(/foo details/);
 });

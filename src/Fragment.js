@@ -58,14 +58,14 @@ class Fragment {
       return;
     }
 
-    if (this.parent) {
-      this.parent.append(...args);
+    if (this.parentNode) {
+      this.parentNode.append(...args);
       return;
     }
 
     throw (
       'Failed to insert dom node(s) after a fragment due to insufficient context:\n' +
-      `  dom nodes: ${args}.`
+      `  dom node(s): ${args}.`
     );
   }
 

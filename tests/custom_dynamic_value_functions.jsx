@@ -60,7 +60,7 @@ test('multistate function with invalid state object throws error', () => {
 
 });
 
-test('multistate with an array of entities', () => {
+test('multistate returning an array of nodes', () => {
   const className = new docu.State('foo');
   const strings = new docu.State(['abc', 'def']);
 

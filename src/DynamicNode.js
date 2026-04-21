@@ -26,6 +26,8 @@ import { append, ensureValidChildObject, flatDOMNodeArray } from './utils'
  */
 class DynamicNode {
   constructor(dynamicValue) {
+    dynamicValue.dynamicNodes.push(this);
+
     this.dynamicValue = dynamicValue;
     this.node = ensureValidChildObject(dynamicValue.currentValue());
 
@@ -65,6 +67,7 @@ class DynamicNode {
     this.node.after(...newNodes);
 
     if (newNode instanceof Fragment) {
+      newNode.previousSibling = this.node.previousSibling
       newNode.parentNode = this.node.parentNode;
     }
 

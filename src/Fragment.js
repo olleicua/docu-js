@@ -53,8 +53,8 @@ class Fragment {
       return;
     }
 
-    if (this.previousNode) {
-      this.previousNode.after(...args);
+    if (this.previousSibling) {
+      this.previousSibling.after(...args);
       return;
     }
 

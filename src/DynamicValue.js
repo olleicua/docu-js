@@ -55,6 +55,8 @@ function validMultistateObject(object) {
  */
 class DynamicValue {
   constructor(state, modifierFn) {
+    this.dynamicNodes = [];
+
     if (state instanceof State) {
       this.mode = 'singleState';
       this.state = state;

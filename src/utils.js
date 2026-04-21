@@ -151,7 +151,7 @@ export function append(parent, child) {
 
   if (childObject instanceof Fragment) {
     childObject.parentNode = parent;
-    childObject.previousNode = lastChild(parent);
+    childObject.previousSibling = lastChild(parent);
     for (let i = 0; i < childObject.children.length; i++) {
       append(parent, childObject.children[i]);
     }

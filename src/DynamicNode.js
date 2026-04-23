@@ -66,6 +66,8 @@ class DynamicNode {
 
     this.node.after(...newNodes);
 
+    // TODO: we need to replace the node in any fragments that it is in as well as in the DOM
+
     if (newNode instanceof Fragment) {
       newNode.previousSibling = this.node.previousSibling
       newNode.parentNode = this.node.parentNode;

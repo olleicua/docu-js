@@ -15,7 +15,9 @@ import { ensureValidChildObject, getDOMNode } from './utils';
 class Fragment {
   constructor(children) {
     this.children = children.map((child) => {
+      // TODO: the DynamicNode needs to register that it is used in a Fragment so that the Fragment can be updated
       if (child instanceof DynamicValue) {
+	// TODO: we may want DynamicValue to have exactly one DynamicNode to prevent excess object proliferation and reign in memory usage
         return new DynamicNode(child).node;
       }
 

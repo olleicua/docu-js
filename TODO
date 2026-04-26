@@ -21,7 +21,7 @@
 == Do these next ==
 
 - [x] DynamicNode should track all of the Fragments that it is part of (think about nested fragments here) and replace itself in those fragments as well as the DOM (it can only exist in one place in the DOM and the DOM manages that for us)
-- [ ] make Fragment#appendChild work correctly (see broken test in test/dynamic_nodes_in_fragments.jsx)
+- [x] make Fragment#appendChild work correctly (see broken test in test/dynamic_nodes_in_fragments.jsx)
 - [ ] improve regression testing around fragments and dynamic nodes
   - [ ] in particular if a dynamic node toggles between a DOM node and an empty fragment its position in the DOM should never change and we should test the case where it is an only child, a first child, a middle child, and a last child
   - [ ] i specifically think i've spotted a bug in the case of it being the first child

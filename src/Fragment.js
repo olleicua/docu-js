@@ -2,7 +2,7 @@ import { isString } from 'lodash-es';
 import State from './State';
 import DynamicValue from './DynamicValue';
 import DynamicNode from './DynamicNode';
-import { ensureValidChildObject, getDOMNode } from './utils';
+import { ensureValidChildObject, getDOMNode, flatDOMNodeArray } from './utils';
 
 /* class Fragment
  *
@@ -49,8 +49,9 @@ class Fragment {
     const childNode = this.prepareNode(child);
 
     if (this.parentNode) {
-      this.after(getDOMNode(childNode));
+      this.after(...flatDOMNodeArray([childNode]));
     }
+
     this.children.push(childNode);
   }
 

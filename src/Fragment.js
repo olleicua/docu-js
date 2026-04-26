@@ -1,4 +1,5 @@
 import { isString } from 'lodash-es';
+import State from './State';
 import DynamicValue from './DynamicValue';
 import DynamicNode from './DynamicNode';
 import { ensureValidChildObject, getDOMNode } from './utils';
@@ -14,15 +15,43 @@ import { ensureValidChildObject, getDOMNode } from './utils';
  */
 class Fragment {
   constructor(children) {
-    this.children = children.map((child) => {
-      // TODO: the DynamicNode needs to register that it is used in a Fragment so that the Fragment can be updated
-      if (child instanceof DynamicValue) {
-	// TODO: we may want DynamicValue to have exactly one DynamicNode to prevent excess object proliferation and reign in memory usage
-        return new DynamicNode(child).node;
-      }
+    this.children = [];
 
-      return ensureValidChildObject(child);
-    });
+    children.forEach(child => this.appendChild(child));
+  }
+
+  /* Fragment#prepareNode(object)
+   *
+   * if the object is a State or DynamicValue then create a DynamicNode tied to this fragment
+   * and return its node
+   * otherwise return ensureValidChildObject(object)
+   */
+  prepareNode(object) {
+    if (object instanceof State || object instanceof DynamicValue) {
+      const dynamicNode = new DynamicNode(
+        (object instanceof DynamicValue) ? object : new DynamicValue(object)
+      );
+
+      dynamicNode.fragment = this;
+      return dynamicNode.node;
+    }
+
+    return ensureValidChildObject(object);
+  }
+
+  /* Fragment#appendChild(child)
+   *
+   * adds the child to the end of the fragment if it is a node
+   * creates a dynamic node tied to this fragment if the child is a State or DynamicValue
+   * inserts the child into an a DOM tree iff the fragment has a parentNode
+   */
+  appendChild(child) {
+    const childNode = this.prepareNode(child);
+
+    if (this.parentNode) {
+      this.after(getDOMNode(childNode));
+    }
+    this.children.push(childNode);
   }
 
   /* Fragment#isEmpty()
@@ -79,16 +108,6 @@ class Fragment {
     for (let i = 0; i < this.children.length; i++) {
       this.children[i].remove();
     }
-  }
-
-  /* Fragment#appendChild(childNode)
-   *
-   * adds the specified node to the fragment at the end.
-   */
-  appendChild(child) {
-    const childObject = ensureValidChildObject(child);
-    this.after(getDOMNode(childObject));
-    this.children.push(childObject);
   }
 }
 

@@ -55,25 +55,30 @@ class DynamicNode {
    * this.node to the new node.
    */
   replaceNode(newNode) {
-    if (!this.node.parentNode) {
-      this.node = newNode;
-      return;
-    }
-
     if (this.node === newNode) return;
 
     const newNodes = flatDOMNodeArray([newNode]);
 
-    this.node.after(...newNodes);
+    if (this.fragment) {
+      const currentNodeArray = flatDOMNodeArray([this.node]);
 
-    // TODO: we need to replace the node in any fragments that it is in as well as in the DOM
+      this.fragment.children.splice(
+	this.fragment.children.indexOf(currentNodeArray[0]),
+	currentNodeArray.length,
+	...newNodes
+      );
+    }
 
     if (newNode instanceof Fragment) {
       newNode.previousSibling = this.node.previousSibling
       newNode.parentNode = this.node.parentNode;
     }
 
-    this.node.remove();
+    if (this.node.parentNode) {
+      this.node.after(...newNodes);
+      this.node.remove();
+    }
+
     this.node = newNode;
   }
 }

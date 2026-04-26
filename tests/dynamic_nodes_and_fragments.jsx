@@ -1,6 +1,8 @@
+import { range } from 'lodash-es';
+
 import '../src/docu.js';
 
-const { append, State } = window.docu;
+const { append, State, dynamicValue: dv } = window.docu;
 
 test('DynamicNode updates the fragment it is in', () => {
   const content = new State(<b>foo</b>);
@@ -94,4 +96,71 @@ test('adding a fragment to a fragment', () => {
   );
 
   expect(document.body.innerHTML).toBe('<b>foo</b>bar<b>baz</b><span>a</span><span>b</span>');
+});
+
+test('DynamicNode keeps position', () => {
+  const newLineCount = new State(1);
+  const showFrags = new State(false);
+
+  const newLines = dv(newLineCount, (count) => {
+    if (count < 1) return <></>;
+
+    if (count === 1) return <br />;
+
+    return range(count).map(() => <br />);
+  });
+
+  const frag1 = <>{newLines}</>;
+  const frag2 = <>{newLines}<p>foo</p>bar</>;
+  const frag3 = <><p>foo</p>{newLines}bar</>;
+  const frag4 = <><p>foo</p>bar{newLines}</>;
+
+  const fragsDiv = <div className="frags">1{frag1}2{frag2}3{frag3}4{frag4}5</div>;
+
+  append(
+    document.body,
+    <>
+      <div className="only">{newLines}</div>
+      <div className="first">{newLines}<p>abc</p>def</div>
+      <div className="middle">xyz{newLines}<span>zyx</span></div>
+      <div className="last">foobar<i>icon</i>{newLines}</div>
+      {dv(showFrags, (show) => show ? fragsDiv : '')}
+    </>
+  );
+
+  expect(document.querySelector('.only').innerHTML).toBe('<br>');
+  expect(document.querySelector('.first').innerHTML).toBe('<br><p>abc</p>def');
+  expect(document.querySelector('.middle').innerHTML).toBe('xyz<br><span>zyx</span>');
+  expect(document.querySelector('.last').innerHTML).toBe('foobar<i>icon</i><br>');
+  expect(document.querySelector('.frags')).toBe(null);
+
+  showFrags.set(true)
+
+  expect(document.querySelector('.frags').innerHTML).toBe(
+    '1<br>2<br><p>foo</p>bar3<p>foo</p><br>bar4<p>foo</p>bar<br>5'
+  );
+
+  newLineCount.set(0);
+
+  expect(document.querySelector('.only').innerHTML).toBe('');
+  expect(document.querySelector('.first').innerHTML).toBe('<p>abc</p>def');
+  expect(document.querySelector('.middle').innerHTML).toBe('xyz<span>zyx</span>');
+  expect(document.querySelector('.last').innerHTML).toBe('foobar<i>icon</i>');
+  expect(document.querySelector('.frags').innerHTML).toBe(
+    '12<p>foo</p>bar3<p>foo</p>bar4<p>foo</p>bar5'
+  );
+
+  newLineCount.set(3);
+
+  expect(document.querySelector('.only').innerHTML).toBe('<br><br><br>');
+  expect(document.querySelector('.first').innerHTML).toBe('<br><br><br><p>abc</p>def');
+  expect(document.querySelector('.middle').innerHTML).toBe('xyz<br><br><br><span>zyx</span>');
+  expect(document.querySelector('.last').innerHTML).toBe('foobar<i>icon</i><br><br><br>');
+  expect(document.querySelector('.frags').innerHTML).toBe(
+    '1<br><br><br>2<br><br><br><p>foo</p>bar3<p>foo</p><br><br><br>bar4<p>foo</p>bar<br><br><br>5'
+  );
+
+  // TOOD: manually add a property to the spans
+  //       then set count back to 0 (making sure property holds in DOM)
+  //       and then back to 1 (making sure property holds in DOM)
 });

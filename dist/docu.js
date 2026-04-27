@@ -3745,23 +3745,31 @@ var docu = (function (exports) {
      * this.node to the new node.
      */
     replaceNode(newNode) {
-      if (!this.node.parentNode) {
-        this.node = newNode;
-        return;
-      }
-
       if (this.node === newNode) return;
 
       const newNodes = flatDOMNodeArray([newNode]);
 
-      this.node.after(...newNodes);
+      if (this.fragmentParent) {
+        const currentNodeArray = flatDOMNodeArray([this.node]);
+
+        this.fragmentParent.children.splice(
+  	this.fragmentParent.children.indexOf(currentNodeArray[0]),
+  	currentNodeArray.length,
+  	...newNodes
+        );
+      }
 
       if (newNode instanceof Fragment) {
         newNode.previousSibling = this.node.previousSibling;
+        newNode.nextSibling = this.node.nextSibling;
         newNode.parentNode = this.node.parentNode;
       }
 
-      this.node.remove();
+      if (this.node.parentNode) {
+        this.node.after(...newNodes);
+        this.node.remove();
+      }
+
       this.node = newNode;
     }
   }
@@ -3777,13 +3785,44 @@ var docu = (function (exports) {
    */
   class Fragment {
     constructor(children) {
-      this.children = children.map((child) => {
-        if (child instanceof DynamicValue) {
-          return new DynamicNode(child).node;
-        }
+      this.children = [];
 
-        return ensureValidChildObject(child);
-      });
+      children.forEach(child => this.appendChild(child));
+    }
+
+    /* Fragment#prepareNode(object)
+     *
+     * if the object is a State or DynamicValue then create a DynamicNode tied to this fragment
+     * and return its node
+     * otherwise return ensureValidChildObject(object)
+     */
+    prepareNode(object) {
+      if (object instanceof State || object instanceof DynamicValue) {
+        const dynamicNode = new DynamicNode(
+          (object instanceof DynamicValue) ? object : new DynamicValue(object)
+        );
+
+        dynamicNode.fragmentParent = this;
+        return dynamicNode.node;
+      }
+
+      return ensureValidChildObject(object);
+    }
+
+    /* Fragment#appendChild(child)
+     *
+     * adds the child to the end of the fragment if it is a node
+     * creates a dynamic node tied to this fragment if the child is a State or DynamicValue
+     * inserts the child into an a DOM tree iff the fragment has a parentNode
+     */
+    appendChild(child) {
+      const childNode = this.prepareNode(child);
+
+      if (this.parentNode) {
+        this.after(...flatDOMNodeArray([childNode]));
+      }
+
+      this.children.push(childNode);
     }
 
     /* Fragment#isEmpty()
@@ -3821,6 +3860,11 @@ var docu = (function (exports) {
         return;
       }
 
+      if (this.nextSibling) {
+        this.nextSibling.before(...args);
+        return;
+      }
+
       if (this.parentNode) {
         this.parentNode.append(...args);
         return;
@@ -3840,16 +3884,6 @@ var docu = (function (exports) {
       for (let i = 0; i < this.children.length; i++) {
         this.children[i].remove();
       }
-    }
-
-    /* Fragment#appendChild(childNode)
-     *
-     * adds the specified node to the fragment at the end.
-     */
-    appendChild(child) {
-      const childObject = ensureValidChildObject(child);
-      this.after(getDOMNode(childObject));
-      this.children.push(childObject);
     }
   }
 

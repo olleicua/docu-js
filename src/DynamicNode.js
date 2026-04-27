@@ -59,11 +59,11 @@ class DynamicNode {
 
     const newNodes = flatDOMNodeArray([newNode]);
 
-    if (this.fragment) {
+    if (this.fragmentParent) {
       const currentNodeArray = flatDOMNodeArray([this.node]);
 
-      this.fragment.children.splice(
-	this.fragment.children.indexOf(currentNodeArray[0]),
+      this.fragmentParent.children.splice(
+	this.fragmentParent.children.indexOf(currentNodeArray[0]),
 	currentNodeArray.length,
 	...newNodes
       );
@@ -71,6 +71,7 @@ class DynamicNode {
 
     if (newNode instanceof Fragment) {
       newNode.previousSibling = this.node.previousSibling
+      newNode.nextSibling = this.node.nextSibling
       newNode.parentNode = this.node.parentNode;
     }
 

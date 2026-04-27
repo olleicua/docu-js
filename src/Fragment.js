@@ -32,7 +32,7 @@ class Fragment {
         (object instanceof DynamicValue) ? object : new DynamicValue(object)
       );
 
-      dynamicNode.fragment = this;
+      dynamicNode.fragmentParent = this;
       return dynamicNode.node;
     }
 
@@ -87,6 +87,11 @@ class Fragment {
 
     if (this.previousSibling) {
       this.previousSibling.after(...args);
+      return;
+    }
+
+    if (this.nextSibling) {
+      this.nextSibling.before(...args);
       return;
     }
 

@@ -160,7 +160,27 @@ test('DynamicNode keeps position', () => {
     '1<br><br><br>2<br><br><br><p>foo</p>bar3<p>foo</p><br><br><br>bar4<p>foo</p>bar<br><br><br>5'
   );
 
-  // TOOD: manually add a property to the spans
-  //       then set count back to 0 (making sure property holds in DOM)
-  //       and then back to 1 (making sure property holds in DOM)
+  document.querySelector('span').setAttribute('data-foo', 17);
+
+  expect(document.querySelector('.middle').innerHTML).toBe('xyz<br><br><br><span data-foo="17">zyx</span>');
+
+  newLineCount.set(0);
+
+  expect(document.querySelector('.only').innerHTML).toBe('');
+  expect(document.querySelector('.first').innerHTML).toBe('<p>abc</p>def');
+  expect(document.querySelector('.middle').innerHTML).toBe('xyz<span data-foo="17">zyx</span>');
+  expect(document.querySelector('.last').innerHTML).toBe('foobar<i>icon</i>');
+  expect(document.querySelector('.frags').innerHTML).toBe(
+    '12<p>foo</p>bar3<p>foo</p>bar4<p>foo</p>bar5'
+  );
+
+  newLineCount.set(1);
+
+  expect(document.querySelector('.only').innerHTML).toBe('<br>');
+  expect(document.querySelector('.first').innerHTML).toBe('<br><p>abc</p>def');
+  expect(document.querySelector('.middle').innerHTML).toBe('xyz<br><span data-foo="17">zyx</span>');
+  expect(document.querySelector('.last').innerHTML).toBe('foobar<i>icon</i><br>');
+  expect(document.querySelector('.frags').innerHTML).toBe(
+    '1<br>2<br><p>foo</p>bar3<p>foo</p><br>bar4<p>foo</p>bar<br>5'
+  );
 });

@@ -3954,7 +3954,6 @@ var docu = (function (exports) {
     return typeof object.appendChild === 'function';
   }
 
-  // TODO: consider giving this function a better name
   function ensureValidChildObject(object) {
     if (object instanceof Fragment ||
         object instanceof Node) {
@@ -3991,7 +3990,7 @@ var docu = (function (exports) {
 
   function flatDOMNodeArray(args) {
     return args.map((object) => {
-      const validObject = ensureValidChildObject(object); // TODO: this line might be redundant
+      const validObject = ensureValidChildObject(object);
 
       if (validObject instanceof Fragment) {
         return flatDOMNodeArray(validObject.children);

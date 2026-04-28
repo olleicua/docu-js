@@ -3977,8 +3977,7 @@ var docu = (function (exports) {
   	 'a string, a DOM Node, or an Array of such objects');
   }
 
-  // TODO: consider giving this function a better name
-  function getDOMNode(object) {
+  function ensureSingleNode(object) {
     if (object instanceof Fragment) {
       throw 'docu Fragment object has no singular DOM node';
     }
@@ -3998,7 +3997,7 @@ var docu = (function (exports) {
         return flatDOMNodeArray(validObject.children);
       }
 
-      return getDOMNode(validObject)
+      return ensureSingleNode(validObject)
     }).flat();
   }
 
@@ -4087,7 +4086,7 @@ var docu = (function (exports) {
       return;
     }
 
-    parent.appendChild(getDOMNode(childObject));
+    parent.appendChild(ensureSingleNode(childObject));
   }
 
   function jsxEntity(tag, props, ...children) {

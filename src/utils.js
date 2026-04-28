@@ -67,8 +67,7 @@ export function ensureValidChildObject(object) {
 	 'a string, a DOM Node, or an Array of such objects');
 }
 
-// TODO: consider giving this function a better name
-export function getDOMNode(object) {
+export function ensureSingleNode(object) {
   if (object instanceof Fragment) {
     throw 'docu Fragment object has no singular DOM node';
   }
@@ -88,7 +87,7 @@ export function flatDOMNodeArray(args) {
       return flatDOMNodeArray(validObject.children);
     }
 
-    return getDOMNode(validObject)
+    return ensureSingleNode(validObject)
   }).flat();
 }
 
@@ -181,5 +180,5 @@ export function append(parent, child) {
     return;
   }
 
-  parent.appendChild(getDOMNode(childObject));
+  parent.appendChild(ensureSingleNode(childObject));
 }

@@ -2,7 +2,7 @@ import { isString } from 'lodash-es';
 import State from './State';
 import DynamicValue from './DynamicValue';
 import DynamicNode from './DynamicNode';
-import { ensureValidChildObject, getDOMNode, flatDOMNodeArray } from './utils';
+import { ensureValidChildObject, flatDOMNodeArray } from './utils';
 
 /* class Fragment
  *

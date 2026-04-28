@@ -3,6 +3,7 @@ import {
   isObject,
   isPlainObject,
   isString,
+  isNumber,
   isArrayLike,
   isArray,
   toArray,
@@ -52,6 +53,10 @@ export function ensureValidChildObject(object) {
 
   if (isString(object)) {
     return document.createTextNode(object);
+  }
+
+  if (isNumber(object)) {
+    return document.createTextNode(object.toString());
   }
 
   if (isArrayLike(object)) {

@@ -186,7 +186,7 @@ test('DynamicNode keeps position', () => {
 });
 
 test('replacing with nested empty fragments', () => {
-  const data = new State({ a: '1', b: '2' });
+  const data = new State({ a: 1, b: 2 });
   const verbose = new State(false);
 
   append(document.body, dv(
@@ -221,7 +221,7 @@ test('replacing with nested empty fragments', () => {
 
   expect(document.body.querySelector('.extras')).toBe(null);
 
-  data.update({ b: '3' });
+  data.update({ b: 3 });
 
   expect(document.body.textContent).toMatch(/a: 1/);
   expect(document.body.textContent).toMatch(/b: 3/);

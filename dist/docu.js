@@ -972,7 +972,7 @@ var docu = (function (exports) {
       errorTag$1 = '[object Error]',
       funcTag = '[object Function]',
       mapTag$3 = '[object Map]',
-      numberTag$1 = '[object Number]',
+      numberTag$2 = '[object Number]',
       objectTag$3 = '[object Object]',
       regexpTag$1 = '[object RegExp]',
       setTag$3 = '[object Set]',
@@ -1002,7 +1002,7 @@ var docu = (function (exports) {
   typedArrayTags[arrayBufferTag$1] = typedArrayTags[boolTag$1] =
   typedArrayTags[dataViewTag$2] = typedArrayTags[dateTag$1] =
   typedArrayTags[errorTag$1] = typedArrayTags[funcTag] =
-  typedArrayTags[mapTag$3] = typedArrayTags[numberTag$1] =
+  typedArrayTags[mapTag$3] = typedArrayTags[numberTag$2] =
   typedArrayTags[objectTag$3] = typedArrayTags[regexpTag$1] =
   typedArrayTags[setTag$3] = typedArrayTags[stringTag$2] =
   typedArrayTags[weakMapTag$1] = false;
@@ -2478,7 +2478,7 @@ var docu = (function (exports) {
       dateTag = '[object Date]',
       errorTag = '[object Error]',
       mapTag$1 = '[object Map]',
-      numberTag = '[object Number]',
+      numberTag$1 = '[object Number]',
       regexpTag = '[object RegExp]',
       setTag$1 = '[object Set]',
       stringTag$1 = '[object String]',
@@ -2527,7 +2527,7 @@ var docu = (function (exports) {
 
       case boolTag:
       case dateTag:
-      case numberTag:
+      case numberTag$1:
         // Coerce booleans to `1` or `0` and dates to milliseconds.
         // Invalid dates are coerced to `NaN`.
         return eq(+object, +other);
@@ -3344,6 +3344,40 @@ var docu = (function (exports) {
       : (!!length && baseIndexOf(collection, value, fromIndex) > -1);
   }
 
+  /** `Object#toString` result references. */
+  var numberTag = '[object Number]';
+
+  /**
+   * Checks if `value` is classified as a `Number` primitive or object.
+   *
+   * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are
+   * classified as numbers, use the `_.isFinite` method.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a number, else `false`.
+   * @example
+   *
+   * _.isNumber(3);
+   * // => true
+   *
+   * _.isNumber(Number.MIN_VALUE);
+   * // => true
+   *
+   * _.isNumber(Infinity);
+   * // => true
+   *
+   * _.isNumber('3');
+   * // => false
+   */
+  function isNumber(value) {
+    return typeof value == 'number' ||
+      (isObjectLike(value) && baseGetTag(value) == numberTag);
+  }
+
   /**
    * Creates an object with the same keys as `object` and values generated
    * by running each own enumerable string keyed property of `object` thru
@@ -3920,6 +3954,7 @@ var docu = (function (exports) {
     return typeof object.appendChild === 'function';
   }
 
+  // TODO: consider giving this function a better name
   function ensureValidChildObject(object) {
     if (object instanceof Fragment ||
         object instanceof Node) {
@@ -3930,6 +3965,10 @@ var docu = (function (exports) {
       return document.createTextNode(object);
     }
 
+    if (isNumber(object)) {
+      return document.createTextNode(object.toString());
+    }
+
     if (isArrayLike(object)) {
       return new Fragment(toArray(object).map(ensureValidChildObject));
     }
@@ -3938,6 +3977,7 @@ var docu = (function (exports) {
   	 'a string, a DOM Node, or an Array of such objects');
   }
 
+  // TODO: consider giving this function a better name
   function getDOMNode(object) {
     if (object instanceof Fragment) {
       throw 'docu Fragment object has no singular DOM node';

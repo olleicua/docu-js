@@ -184,3 +184,54 @@ test('DynamicNode keeps position', () => {
     '1<br>2<br><p>foo</p>bar3<p>foo</p><br>bar4<p>foo</p>bar<br>5'
   );
 });
+
+test('replacing with nested empty fragments', () => {
+  const data = new State({ a: '1', b: '2' });
+  const verbose = new State(false);
+
+  append(document.body, dv(
+    data,
+    ({a, b}) => {
+      return (
+	<>
+	  <p>a: {a}</p>
+	  <p>b: {b}</p>
+	  {dv(
+	    verbose,
+	    (showExtras) => {
+	      if (!showExtras) return <></>;
+
+	      return <div className="extras">so many details</div>;
+	    }
+	  )}
+	</>
+      );
+    }
+  ));
+
+  expect(document.body.textContent).toMatch(/a: 1/);
+  expect(document.body.textContent).toMatch(/b: 2/);
+  expect(document.body.querySelector('.extras')).toBe(null);
+
+  verbose.set(true)
+
+  expect(document.body.querySelector('.extras')).not.toBe(null);
+
+  verbose.set(false)
+
+  expect(document.body.querySelector('.extras')).toBe(null);
+
+  data.update({ b: '3' });
+
+  expect(document.body.textContent).toMatch(/a: 1/);
+  expect(document.body.textContent).toMatch(/b: 3/);
+  expect(document.body.querySelector('.extras')).toBe(null);
+
+  verbose.set(true)
+
+  expect(document.body.querySelector('.extras')).not.toBe(null);
+
+  verbose.set(false)
+
+  expect(document.body.querySelector('.extras')).toBe(null);
+});

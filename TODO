@@ -23,11 +23,13 @@
 - [x] improve regression testing around fragments and dynamic nodes
   - [x] in particular if a dynamic node toggles between a DOM node and an empty fragment its position in the DOM should never change and we should test the case where it is an only child, a first child, a middle child, and a last child
   - [x] i specifically think i've spotted a bug in the case of it being the first child
-  - [ ] consider testing when multiple dynamic nodes nested in fragments nested in dynamic nodes
+  - [x] consider testing when multiple dynamic nodes nested in fragments nested in dynamic nodes
 
 == Do these next ==
 
 - [ ] automatically convert numbers to strings
+- [ ] follow up on inline TODO comments
+- [ ] look for ways to simplify / deduplicate logic around tracking nextSibling, previousSibling, and parentNode for fragments
 - [ ] prepend before and after should be util methods in addition to append (and relatedly we may want methods like this for fragments..)
 - [ ] add built in cutom entities to handle standard inputs so that users dont have to type `onChange={(e) => state.set(e.target.value)}` every time':
 - [ ] create some standard entities like:

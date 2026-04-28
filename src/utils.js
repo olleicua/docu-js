@@ -43,6 +43,7 @@ export function isAppendable(object) {
   return typeof object.appendChild === 'function';
 }
 
+// TODO: consider giving this function a better name
 export function ensureValidChildObject(object) {
   if (object instanceof Fragment ||
       object instanceof Node) {
@@ -61,6 +62,7 @@ export function ensureValidChildObject(object) {
 	 'a string, a DOM Node, or an Array of such objects');
 }
 
+// TODO: consider giving this function a better name
 export function getDOMNode(object) {
   if (object instanceof Fragment) {
     throw 'docu Fragment object has no singular DOM node';
@@ -75,7 +77,7 @@ export function getDOMNode(object) {
 
 export function flatDOMNodeArray(args) {
   return args.map((object) => {
-    const validObject = ensureValidChildObject(object);
+    const validObject = ensureValidChildObject(object); // TODO: this line might be redundant
 
     if (validObject instanceof Fragment) {
       return flatDOMNodeArray(validObject.children);
@@ -83,6 +85,22 @@ export function flatDOMNodeArray(args) {
 
     return getDOMNode(validObject)
   }).flat();
+}
+
+// Recursively copies the values of parentNode, previousSibling, and nextSibling
+// to all children of the fragment
+export function prepareFragmentForDOM(fragment) {
+  fragment.children.forEach((child, index) => {
+    if (child instanceof Fragment) {
+      child.parentNode = fragment.parentNode
+      child.previousSibling =
+        (index === 0) ? fragment.previousSibling : fragment.children[index - 1];
+      child.nextSibling =
+        (index === fragment.children.length - 1) ? fragment.nextSibling : fragment.children[index + 1];
+
+      prepareFragmentForDOM(child);
+    }
+  });
 }
 
 const alwaysLowerCasePropertyNames = [

@@ -3719,6 +3719,7 @@ var docu = (function (exports) {
       dynamicValue.dynamicNodes.push(this);
 
       this.dynamicValue = dynamicValue;
+
       this.node = ensureValidChildObject(dynamicValue.currentValue());
 
       this.dynamicValue.onChange((newNode) => {
@@ -3763,6 +3764,9 @@ var docu = (function (exports) {
         newNode.previousSibling = this.node.previousSibling;
         newNode.nextSibling = this.node.nextSibling;
         newNode.parentNode = this.node.parentNode;
+
+        // apply these properties appropriately to any nested fragments
+        prepareFragmentForDOM(newNode);
       }
 
       if (this.node.parentNode) {
@@ -3948,7 +3952,7 @@ var docu = (function (exports) {
 
   function flatDOMNodeArray(args) {
     return args.map((object) => {
-      const validObject = ensureValidChildObject(object);
+      const validObject = ensureValidChildObject(object); // TODO: this line might be redundant
 
       if (validObject instanceof Fragment) {
         return flatDOMNodeArray(validObject.children);
@@ -3956,6 +3960,22 @@ var docu = (function (exports) {
 
       return getDOMNode(validObject)
     }).flat();
+  }
+
+  // Recursively copies the values of parentNode, previousSibling, and nextSibling
+  // to all children of the fragment
+  function prepareFragmentForDOM(fragment) {
+    fragment.children.forEach((child, index) => {
+      if (child instanceof Fragment) {
+        child.parentNode = fragment.parentNode;
+        child.previousSibling =
+          (index === 0) ? fragment.previousSibling : fragment.children[index - 1];
+        child.nextSibling =
+          (index === fragment.children.length - 1) ? fragment.nextSibling : fragment.children[index + 1];
+
+        prepareFragmentForDOM(child);
+      }
+    });
   }
 
   const alwaysLowerCasePropertyNames = [

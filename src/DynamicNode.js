@@ -1,7 +1,7 @@
 import { isString } from 'lodash-es';
 
 import Fragment from './Fragment';
-import { append, ensureValidChildObject, flatDOMNodeArray } from './utils'
+import { append, ensureValidChildObject, flatDOMNodeArray, prepareFragmentForDOM } from './utils'
 
 /* class DynamicNode
  *
@@ -29,6 +29,7 @@ class DynamicNode {
     dynamicValue.dynamicNodes.push(this);
 
     this.dynamicValue = dynamicValue;
+
     this.node = ensureValidChildObject(dynamicValue.currentValue());
 
     this.dynamicValue.onChange((newNode) => {
@@ -73,6 +74,9 @@ class DynamicNode {
       newNode.previousSibling = this.node.previousSibling
       newNode.nextSibling = this.node.nextSibling
       newNode.parentNode = this.node.parentNode;
+
+      // apply these properties appropriately to any nested fragments
+      prepareFragmentForDOM(newNode);
     }
 
     if (this.node.parentNode) {

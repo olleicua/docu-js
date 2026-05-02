@@ -7,12 +7,12 @@ test('n cats', () => {
   append(document.body, (
     <>
       <input
-	type="number"
-	value={dv(numberOfCats)}
-	onChange={(event) => numberOfCats.set(event.target.value)}
+        type="number"
+        value={dv(numberOfCats)}
+        onChange={(event) => numberOfCats.set(event.target.value)}
       />
       <p className="cats">
-	{dv(numberOfCats, (n) => '🐈'.repeat(n))}
+        {dv(numberOfCats, (n) => '🐈'.repeat(n))}
       </p>
     </>
   ));
@@ -35,18 +35,18 @@ test('content swap', () => {
     <label>
       type of content:
       <select onChange={(event) => contentOption.set(event.target.value)}>
-	<option
-	  value="paragraph"
-	  selected={dv(contentOption, v => v === 'paragraph')}
-	>
+        <option
+          value="paragraph"
+          selected={dv(contentOption, v => v === 'paragraph')}
+        >
           Paragraph
-	</option>
-	<option
-	  value="image"
-	  selected={dv(contentOption, v => v === 'image')}
-	>
+        </option>
+        <option
+          value="image"
+          selected={dv(contentOption, v => v === 'image')}
+        >
           Image
-	</option>
+        </option>
       </select>
     </label>
   );
@@ -62,7 +62,7 @@ test('content swap', () => {
     >
       content:
       {
-	dv(contentOption, (option) => {
+        dv(contentOption, (option) => {
           return {
             paragraph: <p>the cat is adorable</p>,
             image: <img src="139.jpg" />

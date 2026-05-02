@@ -47,7 +47,7 @@ test('child cannot be set to a value other than a String or Node', () => {
     exceptionThrown = true;
     expect(e).toBe(
       'object in a child element context must be a docu Fragment, ' +
-	'a string, a DOM Node, or an Array of such objects'
+        'a string, a DOM Node, or an Array of such objects'
     );
   }
 
@@ -69,7 +69,7 @@ test('child cannot be set to a dynamic value object', () => {
     exceptionThrown = true;
     expect(e).toBe(
       'object in a child element context must be a docu Fragment, ' +
-	'a string, a DOM Node, or an Array of such objects'
+        'a string, a DOM Node, or an Array of such objects'
     );
   }
 

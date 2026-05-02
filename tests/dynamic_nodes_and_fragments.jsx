@@ -35,14 +35,14 @@ test('DynamicNode updates the fragment it is in', () => {
   content.set(
     <>
       <>
-	<span>a</span>
-	<span>b</span>
-	<span>c</span>
+        <span>a</span>
+        <span>b</span>
+        <span>c</span>
       </>
       dd
       <>
-	<span>e</span>
-	<span>f</span>
+        <span>e</span>
+        <span>f</span>
       </>
     </>
   );
@@ -193,18 +193,18 @@ test('replacing with nested empty fragments', () => {
     data,
     ({a, b}) => {
       return (
-	<>
-	  <p>a: {a}</p>
-	  <p>b: {b}</p>
-	  {dv(
-	    verbose,
-	    (showExtras) => {
-	      if (!showExtras) return <></>;
+        <>
+          <p>a: {a}</p>
+          <p>b: {b}</p>
+          {dv(
+            verbose,
+            (showExtras) => {
+              if (!showExtras) return <></>;
 
-	      return <div className="extras">so many details</div>;
-	    }
-	  )}
-	</>
+              return <div className="extras">so many details</div>;
+            }
+          )}
+        </>
       );
     }
   ));

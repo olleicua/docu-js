@@ -67,9 +67,9 @@
     <p style={
       dv(theme, (t) => {
         if (t === 'light') {
-	  return { backgroundColor: '#222', color: '#fff' };
-	}
-	return { backgroundColor: '#fff', color: '#333' };
+          return { backgroundColor: '#222', color: '#fff' };
+        }
+        return { backgroundColor: '#fff', color: '#333' };
       })
     }>lorem ipsum</p>
     ```

@@ -12,7 +12,7 @@ test('creates DOM elements using a function', () => {
   const Hello = ({ color, name }) => {
     return (
       <p style={{ color }}>
-	Hello {name}!
+        Hello {name}!
       </p>
     );
   };

@@ -16,20 +16,20 @@ export default [
       commonjs(), // Converts CommonJS modules to ES6
       // browser compatibility stuff
       // babel({
-      // 	babelHelpers: 'bundled',
-      // 	presets: [
+      //         babelHelpers: 'bundled',
+      //         presets: [
       //     ['@babel/preset-env', {
       //       targets: { ie: '11' }, // Target IE 11 specifically
       //       useBuiltIns: 'entry',
       //       corejs: 3
       //     }]
-      // 	]
+      //         ]
       // }),
     ],
     onwarn: (warning, warn) => {
       // Suppress circular dependency warnings
       if (warning.code === 'CIRCULAR_DEPENDENCY') {
-	return;
+        return;
       }
       warn(warning);
     }
@@ -46,21 +46,21 @@ export default [
       commonjs(), // Converts CommonJS modules to ES6
       // browser compatibility stuff
       // babel({
-      // 	babelHelpers: 'bundled',
-      // 	presets: [
+      //         babelHelpers: 'bundled',
+      //         presets: [
       //     ['@babel/preset-env', {
       //       targets: { ie: '11' }, // Target IE 11 specifically
       //       useBuiltIns: 'entry',
       //       corejs: 3
       //     }]
-      // 	]
+      //         ]
       // }),
       terser(), // Minify the output
     ],
     onwarn: (warning, warn) => {
       // Suppress circular dependency warnings
       if (warning.code === 'CIRCULAR_DEPENDENCY') {
-	return;
+        return;
       }
       warn(warning);
     }

@@ -62,12 +62,12 @@ class DynamicValue {
       this.state = state;
     } else {
       if (!validMultistateObject(state)) {
-	throw 'the first argument to dynamicValue must be either a State object ' +
-	  'or an object whose values are all State objects'
+        throw 'the first argument to dynamicValue must be either a State object ' +
+          'or an object whose values are all State objects'
       }
 
       if (!modifierFn) {
-	throw 'multistate dynamic value requires a function';
+        throw 'multistate dynamic value requires a function';
       }
 
       this.mode = 'multiState';

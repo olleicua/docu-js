@@ -64,9 +64,9 @@ class DynamicNode {
       const currentNodeArray = flatDOMNodeArray([this.node]);
 
       this.fragmentParent.children.splice(
-	this.fragmentParent.children.indexOf(currentNodeArray[0]),
-	currentNodeArray.length,
-	...newNodes
+        this.fragmentParent.children.indexOf(currentNodeArray[0]),
+        currentNodeArray.length,
+        ...newNodes
       );
     }
 

@@ -52,7 +52,7 @@ test('multistate function with invalid state object throws error', () => {
     exceptionThrown = true;
     expect(e).toBe(
       'the first argument to dynamicValue must be either a State object ' +
-	'or an object whose values are all State objects'
+        'or an object whose values are all State objects'
     );
   }
 

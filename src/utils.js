@@ -63,7 +63,7 @@ export function ensureValidChildObject(object) {
   }
 
   throw ('object in a child element context must be a docu Fragment, ' +
-	 'a string, a DOM Node, or an Array of such objects');
+         'a string, a DOM Node, or an Array of such objects');
 }
 
 export function ensureSingleNode(object) {

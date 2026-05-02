@@ -11,7 +11,7 @@ test('updating to a non-object state throws an exception', () => {
   } catch (e) {
     exceptionThrown = true;
     expect(e).toBe('`update` can only be called on a State object whose value is ' +
-		   'a plain obect or a DOM Node');
+                   'a plain obect or a DOM Node');
   }
 
   expect(exceptionThrown).toBe(true);

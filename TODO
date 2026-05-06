@@ -28,6 +28,14 @@
 
 == Do these next ==
 
+- [ ] if a dv modifier function returns null or undefined then the error message should say so (or maybe the generic one should say something about the type)
+
+- [ ] export a destroyNode function that takes a node and looks for dynamicValues associated with it (we need to actually associate both attribute dvs and dynamic node dvs with the nodes themselves so they can later be found.. basically this needs to remove listener functions from the state's listener
+
+- [ ] allow batch updates by making a function that turns delays all states from calling their callbacks until the batch finishes
+
+- [ ] Array States could have a map method that enables changes to just one item at a time so we dont need to redraw the whole list.. also maybe ArrayState and ObjectState could be subclasses.. idk..
+
 - [ ] look for ways to simplify / deduplicate logic around tracking nextSibling, previousSibling, and parentNode for fragments
 - [ ] prepend before and after should be util methods in addition to append (and relatedly we may want methods like this for fragments..)
 - [ ] add built in cutom entities to handle standard inputs so that users dont have to type `onChange={(e) => state.set(e.target.value)}` every time':
